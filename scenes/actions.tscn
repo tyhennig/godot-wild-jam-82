@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhpbm76kumygh"]
+
+[ext_resource type="Script" uid="uid://rav3rgswr17m" path="res://scenes/Actions.cs" id="1_he050"]
+
+[node name="Actions" type="Control" node_paths=PackedStringArray("_fireButton", "_scanButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_he050")
+_fireButton = NodePath("Action Container/FireButton")
+_scanButton = NodePath("Action Container/ScanButton")
+
+[node name="Action Container" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.226
+anchor_bottom = 0.103
+offset_right = 3.35999
+offset_bottom = -0.0800018
+
+[node name="FireButton" type="Button" parent="Action Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fire!"
+
+[node name="ScanButton" type="Button" parent="Action Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Scan!"

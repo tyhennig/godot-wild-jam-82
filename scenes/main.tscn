@@ -1,3 +1,25 @@
-[gd_scene format=3 uid="uid://dmkmllt32a5bj"]
+[gd_scene load_steps=5 format=3 uid="uid://dmkmllt32a5bj"]
+
+[ext_resource type="PackedScene" uid="uid://c2doverurw5gf" path="res://scenes/grid.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://dhpbm76kumygh" path="res://scenes/actions.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://cefsom274k75u" path="res://scenes/action_manager.tscn" id="3_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cj6giwlrt7nv4" path="res://assets/icon.svg" id="4_jyhfs"]
 
 [node name="Main" type="Node2D"]
+
+[node name="Grid" parent="." instance=ExtResource("1_o5qli")]
+position = Vector2(320, 180)
+
+[node name="Actions" parent="." instance=ExtResource("2_0wfyh")]
+offset_left = 34.0
+offset_top = 120.0
+offset_right = 34.0
+offset_bottom = 120.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ActionManager" parent="." instance=ExtResource("3_sugp2")]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(559, 83)
+texture = ExtResource("4_jyhfs")
