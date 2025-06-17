@@ -3,6 +3,8 @@ using System;
 
 public partial class ActionManager : Node
 {
+	private int ammoCount;
+	private int scanCount;
 	private States currentState;
 	public enum States
 	{
@@ -22,6 +24,9 @@ public partial class ActionManager : Node
 		gridNode.GridClicked += OnGridClicked;
 
 		currentState = States.Nothing;
+
+		ammoCount = 99;
+		scanCount = 10;
 	}
 
     private void OnGridClicked(Vector2I cell)
@@ -30,10 +35,17 @@ public partial class ActionManager : Node
 		{
 			case States.Firing:
 				GD.Print("Firing on ", cell);
+				if (ammoCount >= 1)
+				{
+					GetNode<Resources>("../Resources").UpdateAmmo(--ammoCount);
+				}
 				break;
 			case States.Scanning:
 				GD.Print("Scanning on ", cell);
-				break;
+				if (scanCount >= 1)
+				{
+					GetNode<Resources>("../Resources").UpdateScans(--scanCount);
+				}				break;
 			case States.Nothing:
 				break;
 		}
