@@ -14,6 +14,10 @@ config/name="Gridwreck"
 run/main_scene="uid://dmkmllt32a5bj"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
+[autoload]
+
+GameState="*res://scripts/GameState.cs"
+
 [display]
 
 window/size/viewport_width=640
