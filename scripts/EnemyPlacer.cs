@@ -18,6 +18,9 @@ public partial class EnemyPlacer : Node
 
 	public void PlaceEnemyShips(int roundNumber)
 	{
-		
+		var enemyScene = GD.Load<PackedScene>("res://scenes/enemy_ship.tscn");
+		EnemyShip instance = enemyScene.Instantiate() as EnemyShip;
+		instance.GridLocations = [new Vector2I(0, 0), new Vector2I(0, 1), new Vector2I(0, 2)];
+		AddChild(instance);
 	}
 }
