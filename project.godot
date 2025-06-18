@@ -12,7 +12,11 @@ config_version=5
 
 config/name="Gridwreck"
 run/main_scene="uid://dmkmllt32a5bj"
-config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
+
+[autoload]
+
+GameState="*res://scripts/GameState.cs"
 
 [autoload]
 
