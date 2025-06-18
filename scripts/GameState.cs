@@ -39,6 +39,18 @@ public partial class GameState : Node
 	{
 	}
 
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventKey eventKey)
+		{
+			if (eventKey.Pressed && eventKey.Keycode == Key.N)
+			{
+				_initializeNewRound();
+			}
+		}
+    }
+
+
 	private void _initializeNewGameData()
 	{
 		RoundNumber = 0;
@@ -48,6 +60,13 @@ public partial class GameState : Node
 		CurrentScans = StartingScans;
 		CurrentEnergy = StartingEnergy;
 		_initializeNewRound();
+	}
+	private void _initializeNewRound()
+	{
+		RoundNumber++;
+		CurrentScans = StartingScans;
+		CurrentEnergy = StartingEnergy;
+		currentState = States.Nothing;
 	}
 
 	private void OnGridClicked(Vector2I cell)
@@ -67,12 +86,6 @@ public partial class GameState : Node
 		}
     }
 
-	private void _initializeNewRound()
-	{
-		RoundNumber++;
-		CurrentScans = StartingScans;
-		CurrentEnergy = StartingEnergy;
-	}
 
 	private void OnFirePressed()
 	{
