@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dhpbm76kumygh"]
 
-[ext_resource type="Script" uid="uid://rav3rgswr17m" path="res://scenes/Actions.cs" id="1_he050"]
+[ext_resource type="Script" uid="uid://rav3rgswr17m" path="res://scripts/Actions.cs" id="1_he050"]
 
 [node name="Actions" type="Control" node_paths=PackedStringArray("_fireButton", "_scanButton")]
 layout_mode = 3

@@ -8,7 +8,31 @@
 
 [node name="Main" type="Node2D"]
 
-[node name="Resources" parent="." instance=ExtResource("1_tbgi4")]
+[node name="Grid" parent="." instance=ExtResource("1_o5qli")]
+position = Vector2(320, 180)
+
+[node name="ActionManager" parent="." instance=ExtResource("3_sugp2")]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(559, 83)
+texture = ExtResource("4_jyhfs")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Actions" parent="UI" instance=ExtResource("2_0wfyh")]
+layout_mode = 1
+offset_left = 34.0
+offset_top = 120.0
+offset_right = 34.0
+offset_bottom = 120.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Resources" parent="UI" instance=ExtResource("1_tbgi4")]
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -18,20 +42,3 @@ offset_right = 38.0
 offset_bottom = 38.0
 grow_horizontal = 1
 grow_vertical = 1
-
-[node name="Grid" parent="." instance=ExtResource("1_o5qli")]
-position = Vector2(320, 180)
-
-[node name="Actions" parent="." instance=ExtResource("2_0wfyh")]
-offset_left = 34.0
-offset_top = 120.0
-offset_right = 34.0
-offset_bottom = 120.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ActionManager" parent="." instance=ExtResource("3_sugp2")]
-
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(559, 83)
-texture = ExtResource("4_jyhfs")

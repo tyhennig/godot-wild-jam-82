@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://p5y4m0bma605"]
 
-[ext_resource type="Script" uid="uid://csicni5xkktgh" path="res://scenes/Resources.cs" id="1_3m1lq"]
+[ext_resource type="Script" uid="uid://csicni5xkktgh" path="res://scripts/Resources.cs" id="1_3m1lq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqf23"]
 bg_color = Color(0.360604, 0.656568, 0.685857, 0.631373)
@@ -50,7 +50,7 @@ texture = SubResource("PlaceholderTexture2D_eh5fn")
 [node name="AmmoLabel" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer/AmmoHBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
-text = "X 43"
+text = "x"
 
 [node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
@@ -66,4 +66,4 @@ flip_v = true
 [node name="ScanLabel" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer2/ScanHBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
-text = "X 9"
+text = "x"
