@@ -32,7 +32,7 @@ public partial class Grid : Node2D
 				if (localMouseVec2.Abs().X <= 160 && localMouseVec2.Abs().Y <= 160)
 				{
 					Vector2I gridCell = _localMouseVec2ToGridVec2(localMouseVec2);
-					GD.Print("Clicked Grid Coordinate: ", gridCell);
+					// GD.Print("Clicked Grid Coordinate: ", gridCell);
 					EmitSignal(SignalName.GridClicked, gridCell);
 				}
 			}
