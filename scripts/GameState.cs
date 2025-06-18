@@ -11,6 +11,7 @@ public partial class GameState : Node
 	public int CurrentScans { get; private set; }
 	public int CurrentEnergy { get; private set; }
 
+	private EnemyPlacer enemyPlacer;
 	private States currentState;
 	public enum States
 	{
@@ -24,14 +25,20 @@ public partial class GameState : Node
 	public override void _Ready()
 	{
 		Instance = this;
-		_initializeNewGameData();
 
-		var actionNode = GetNode<Actions>("../Main/UI/Actions");
+		//Signal Setup
+		var actionNode = GetNode<Actions>("/root/Main/UI/Actions");
 		actionNode.FirePressed += OnFirePressed;
 		actionNode.ScanPressed += OnScanPressed;
 
-		var gridNode = GetNode<Grid>("../Main/World/Grid");
+		var gridNode = GetNode<Grid>("/root/Main/World/Grid");
 		gridNode.GridClicked += OnGridClicked;
+
+		//Node References
+		enemyPlacer = GetNode<EnemyPlacer>("/root/Main/World/EnemyPlacer");
+
+
+		_initializeNewGameData();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -67,6 +74,7 @@ public partial class GameState : Node
 		CurrentScans = StartingScans;
 		CurrentEnergy = StartingEnergy;
 		currentState = States.Nothing;
+		enemyPlacer.PlaceEnemyShips(RoundNumber);
 	}
 
 	private void OnGridClicked(Vector2I cell)
