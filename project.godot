@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Gridwreck"
-run/main_scene="uid://dmkmllt32a5bj"
+run/main_scene="uid://dup4geigacidd"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
 [display]

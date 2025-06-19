@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://dup4geigacidd"]
+
+[ext_resource type="Script" path="res://scenes/MainMenu.cs" id="1_l6cm7"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_l6cm7")
+
+[node name="MenuLayout" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ButtonLayout" type="VBoxContainer" parent="MenuLayout"]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="MenuLayout/ButtonLayout"]
+layout_mode = 2
+text = "Start Game"
+
+[node name="SettingsButton" type="Button" parent="MenuLayout/ButtonLayout"]
+layout_mode = 2
+text = "Settings"
+
+[node name="SettingsWindow" type="Window" parent="MenuLayout/ButtonLayout/SettingsButton"]
+auto_translate_mode = 1
+title = "Settings"
+visible = false
+
+[node name="SettingsDialog" type="ConfirmationDialog" parent="MenuLayout/ButtonLayout/SettingsButton"]
+auto_translate_mode = 1
+title = "Settings"
+
+[node name="CreditsButton" type="Button" parent="MenuLayout/ButtonLayout"]
+layout_mode = 2
+text = "Credits"
+
+[node name="QuitButton" type="Button" parent="MenuLayout/ButtonLayout"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="MenuLayout/ButtonLayout/StartButton" to="." method="OnStartButtonPressed"]
+[connection signal="pressed" from="MenuLayout/ButtonLayout/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="MenuLayout/ButtonLayout/CreditsButton" to="." method="OnCreditsButtonPressed"]
+[connection signal="pressed" from="MenuLayout/ButtonLayout/QuitButton" to="." method="OnQuitButtonPressed"]
