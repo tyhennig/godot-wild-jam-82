@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmkmllt32a5bj"]
+[gd_scene load_steps=8 format=3 uid="uid://dmkmllt32a5bj"]
 
 [ext_resource type="PackedScene" uid="uid://c2doverurw5gf" path="res://scenes/grid.tscn" id="1_o5qli"]
-[ext_resource type="PackedScene" path="res://scenes/resources.tscn" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://p5y4m0bma605" path="res://scenes/resources.tscn" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://dhpbm76kumygh" path="res://scenes/actions.tscn" id="2_0wfyh"]
 [ext_resource type="Texture2D" uid="uid://cj6giwlrt7nv4" path="res://assets/icon.svg" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://ms8y20j4o3ce" path="res://scripts/StateLabel.cs" id="4_o6xl0"]
 [ext_resource type="Script" uid="uid://bh4aq5ipgkyhh" path="res://scripts/EnemyPlacer.cs" id="5_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://dup4geigacidd" path="res://scenes/main_menu.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" path="res://scenes/main_menu.tscn" id="6_tefeu"]
 
 [node name="Main" type="Node"]
 
@@ -36,6 +37,17 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="MainMenu" parent="UI" instance=ExtResource("6_tefeu")]
+visible = false
+
+[node name="StateLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("4_o6xl0")
 
 [node name="World" type="Node2D" parent="."]
 

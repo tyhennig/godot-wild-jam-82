@@ -174,18 +174,18 @@ public partial class MainMenu : Control
         Vector2 mousePosition = GetViewport().GetMousePosition();
         if (GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is inside the main menu area.");
+            // GD.Print("Mouse is inside the main menu area.");
         }
         else
         {
-            GD.Print("Mouse is outside the main menu area.");
+            // GD.Print("Mouse is outside the main menu area.");
         }
 
         // Check if the mouse is hovering over the Start button
         //      Change the button color, text color, and button size when hovered
         if (startButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is hovering over the Start button.");
+            // GD.Print("Mouse is hovering over the Start button.");
             startButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
 
             // Change button size only when hovered over
@@ -201,7 +201,7 @@ public partial class MainMenu : Control
 
         if (settingsButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is hovering over the Settings button.");
+            // GD.Print("Mouse is hovering over the Settings button.");
             settingsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
 
             // Change button size only when hovered over
@@ -217,7 +217,7 @@ public partial class MainMenu : Control
 
         if (creditsButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is hovering over the Credits button.");
+            // GD.Print("Mouse is hovering over the Credits button.");
             creditsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
 
             // Change button size only when hovered over
@@ -237,7 +237,7 @@ public partial class MainMenu : Control
         // Example: Check if the mouse is hovering over the Quit button
         if (quitButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is hovering over the Quit button.");
+            // GD.Print("Mouse is hovering over the Quit button.");
             quitButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
         }
         else

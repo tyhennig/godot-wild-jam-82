@@ -12,7 +12,7 @@ public partial class GameState : Node
 	public int CurrentEnergy { get; private set; }
 
 	private EnemyPlacer enemyPlacer;
-	private States currentState;
+	public States CurrentState { get; private set; }
 	public enum States
 	{
 		Firing,
@@ -73,13 +73,13 @@ public partial class GameState : Node
 		RoundNumber++;
 		CurrentScans = StartingScans;
 		CurrentEnergy = StartingEnergy;
-		currentState = States.Nothing;
+		CurrentState = States.Nothing;
 		enemyPlacer.PlaceEnemyShips(RoundNumber);
 	}
 
 	private void OnGridClicked(Vector2I cell)
     {
-        switch (currentState)
+        switch (CurrentState)
 		{
 			case States.Firing:
 				GD.Print("Firing on ", cell);
@@ -97,11 +97,11 @@ public partial class GameState : Node
 
 	private void OnFirePressed()
 	{
-		currentState = States.Firing;
+		CurrentState = States.Firing;
 	}
 
 	private void OnScanPressed()
 	{
-		currentState = States.Scanning;
+		CurrentState = States.Scanning;
 	}
 }
