@@ -7,51 +7,46 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 640.0
 offset_bottom = 360.0
-script = ExtResource("1_l6cm7")
-
-[node name="ButtonLayout" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -49.0
-offset_top = -68.0
-offset_right = 47.0
-offset_bottom = 68.0
-grow_horizontal = 2
-grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("1_l6cm7")
 
-[node name="StartButton" type="Button" parent="ButtonLayout"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ButtonLayout" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+
+[node name="StartButton" type="Button" parent="MarginContainer/ButtonLayout"]
+layout_mode = 2
 text = "Start Game"
 
-[node name="SettingsButton" type="Button" parent="ButtonLayout"]
+[node name="SettingsButton" type="Button" parent="MarginContainer/ButtonLayout"]
 layout_mode = 2
-size_flags_vertical = 4
 text = "Settings"
 
-[node name="SettingsDialog" type="ConfirmationDialog" parent="ButtonLayout/SettingsButton"]
+[node name="SettingsDialog" type="ConfirmationDialog" parent="MarginContainer/ButtonLayout/SettingsButton"]
 auto_translate_mode = 1
 title = "Settings"
 
-[node name="CreditsButton" type="Button" parent="ButtonLayout"]
+[node name="CreditsButton" type="Button" parent="MarginContainer/ButtonLayout"]
 layout_mode = 2
-size_flags_vertical = 4
 text = "Credits"
 
-[node name="QuitButton" type="Button" parent="ButtonLayout"]
+[node name="QuitButton" type="Button" parent="MarginContainer/ButtonLayout"]
 layout_mode = 2
 size_flags_vertical = 4
 text = "Quit"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 
-[connection signal="pressed" from="ButtonLayout/StartButton" to="." method="OnStartButtonPressed"]
-[connection signal="pressed" from="ButtonLayout/SettingsButton" to="." method="OnSettingsButtonPressed"]
-[connection signal="pressed" from="ButtonLayout/CreditsButton" to="." method="OnCreditsButtonPressed"]
-[connection signal="pressed" from="ButtonLayout/QuitButton" to="." method="OnQuitButtonPressed"]
+[connection signal="pressed" from="MarginContainer/ButtonLayout/StartButton" to="." method="OnStartButtonPressed"]
+[connection signal="pressed" from="MarginContainer/ButtonLayout/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="MarginContainer/ButtonLayout/CreditsButton" to="." method="OnCreditsButtonPressed"]
+[connection signal="pressed" from="MarginContainer/ButtonLayout/QuitButton" to="." method="OnQuitButtonPressed"]

@@ -19,10 +19,10 @@ public partial class MainMenu : Control
         GD.Print("Initializing main menu...");
 
         // Locate Menu Buttons
-        startButton = GetNode<Button>("ButtonLayout/StartButton");
-        settingsButton = GetNode<Button>("ButtonLayout/SettingsButton");
-        creditsButton = GetNode<Button>("ButtonLayout/CreditsButton");
-        quitButton = GetNode<Button>("ButtonLayout/QuitButton");
+        startButton = GetNode<Button>("MarginContainer/ButtonLayout/StartButton");
+        settingsButton = GetNode<Button>("MarginContainer/ButtonLayout/SettingsButton");
+        creditsButton = GetNode<Button>("MarginContainer/ButtonLayout/CreditsButton");
+        quitButton = GetNode<Button>("MarginContainer/ButtonLayout/QuitButton");
 
         startButton.GrabFocus(); // Set focus on the Start button when the menu is ready
 
@@ -61,7 +61,7 @@ public partial class MainMenu : Control
     private void OnSettingsButtonPressed()
     {
         // Load the settings scene when the settings button is pressed
-        ConfirmationDialog settingsConfirmationDialog = GetNode<ConfirmationDialog>("ButtonLayout/SettingsButton/SettingsDialog");
+        ConfirmationDialog settingsConfirmationDialog = GetNode<ConfirmationDialog>("MarginContainer/ButtonLayout/SettingsButton/SettingsDialog");
 
         GD.Print("Opening settings dialog...");
 
