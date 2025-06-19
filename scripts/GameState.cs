@@ -15,7 +15,7 @@ public partial class GameState : Node
 	public int CurrentEnergy { get; private set; }
 
 	private EnemyPlacer enemyPlacer;
-	private States currentState;
+	public States CurrentState { get; private set; }
 	public enum States
 	{
 		Firing,
@@ -38,6 +38,7 @@ public partial class GameState : Node
 
 		var gridNode = GetNode<Grid>("/root/Main/World/Grid");
 		gridNode.GridClicked += OnGridClicked;
+		gridNode.Show(); // TODO: The grid node wasn't showing unless I forced it to show here, investigate why. Didn't see this issue until after pulling the commit before this one.
 
 		//Node References
 		enemyPlacer = GetNode<EnemyPlacer>("/root/Main/World/EnemyPlacer");
@@ -78,13 +79,13 @@ public partial class GameState : Node
 		RoundNumber++;
 		CurrentScans = StartingScans;
 		CurrentEnergy = StartingEnergy;
-		currentState = States.Nothing;
+		CurrentState = States.Nothing;
 		enemyPlacer.PlaceEnemyShips(RoundNumber);
 	}
 
 	private void OnGridClicked(Vector2I cell)
     {
-        switch (currentState)
+        switch (CurrentState)
 		{
 			case States.Firing:
 				GD.Print("Firing on ", cell);
@@ -102,11 +103,11 @@ public partial class GameState : Node
 
 	private void OnFirePressed()
 	{
-		currentState = States.Firing;
+		CurrentState = States.Firing;
 	}
 
 	private void OnScanPressed()
 	{
-		currentState = States.Scanning;
+		CurrentState = States.Scanning;
 	}
 }

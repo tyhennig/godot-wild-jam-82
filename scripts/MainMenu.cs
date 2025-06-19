@@ -139,18 +139,7 @@ public partial class MainMenu : Control
         //      Change the button color, text color, and button size when hovered
         if (startButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is hovering over the Start button.");
-            // startButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
-
-            // // Set background color
-            // var styleBox = new StyleBoxFlat
-            // {
-            //     BgColor = new Color(0.2f, 0.6f, 0.8f) // Example color
-            // };
-            // startButton.AddThemeStyleboxOverride("normal", styleBox);
-
-            // // Set font color
-            // startButton.AddThemeColorOverride("font_color", new Color(1, 1, 1));
+            // GD.Print("Mouse is hovering over the Start button.");
         }
         else
         {
@@ -160,14 +149,7 @@ public partial class MainMenu : Control
 
         if (settingsButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is hovering over the Settings button.");
-            // settingsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
-
-            // Change button size only when hovered over
-            // settingsButton.RectSize = new Vector2(200, 50); // Example size change
-
-            // Change button text color when hovered
-            // settingsButton.AddThemeFontOverride("font_color", new Color(1, 0, 0)); // Change text color to red
+            // GD.Print("Mouse is hovering over the Settings button.");
         }
         else
         {
@@ -176,14 +158,7 @@ public partial class MainMenu : Control
 
         if (creditsButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is hovering over the Credits button.");
-            // creditsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
-
-            // Change button size only when hovered over
-            // creditsButton.RectSize = new Vector2(200, 50); // Example size change
-
-            // Change button text color when hovered
-            // creditsButton.AddThemeFontOverride("font_color", new Color(1, 0, 0)); // Change text color to red
+            // GD.Print("Mouse is hovering over the Credits button.");
         }
         else
         {
@@ -196,8 +171,7 @@ public partial class MainMenu : Control
         // Example: Check if the mouse is hovering over the Quit button
         if (quitButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is hovering over the Quit button.");
-            // quitButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
+            // GD.Print("Mouse is hovering over the Quit button.");
         }
         else
         {
