@@ -36,6 +36,7 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="MainMenu" parent="UI" instance=ExtResource("6_tefeu")]
+
 [node name="World" type="Node2D" parent="."]
 
 [node name="Grid" parent="World" instance=ExtResource("1_o5qli")]
@@ -47,4 +48,3 @@ texture = ExtResource("4_jyhfs")
 
 [node name="EnemyPlacer" type="Node" parent="World"]
 script = ExtResource("5_tbgi4")
-

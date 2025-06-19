@@ -4,57 +4,39 @@ using System;
 public partial class MainMenu : Control
 {
     // Preload the target scenes for fast transitions.
-    // private PackedScene gameplayScene;
+    private PackedScene gameplayScene;
     // private PackedScene settingsScene;
     // private PackedScene creditsScene;
+
+    private Button startButton;
+    private Button settingsButton;
+    private Button creditsButton;
+    private Button quitButton;
 
 
     public override void _Ready()
     {
         GD.Print("Initializing main menu...");
 
-        GetNode<Button>("MenuLayout/ButtonLayout/StartButton").GrabFocus(); // Set focus on the Start button when the menu is ready
+        // Locate Menu Buttons
+        startButton = GetNode<Button>("ButtonLayout/StartButton");
+        settingsButton = GetNode<Button>("ButtonLayout/SettingsButton");
+        creditsButton = GetNode<Button>("ButtonLayout/CreditsButton");
+        quitButton = GetNode<Button>("ButtonLayout/QuitButton");
+
+        startButton.GrabFocus(); // Set focus on the Start button when the menu is ready
 
         // Preloading scenes reduces delays during transitions.
-        // gameplayScene = (PackedScene)GD.Load("res://Scenes/Gameplay.tscn");
+        gameplayScene = GD.Load<PackedScene>("res://scenes/grid.tscn");
         // settingsScene = (PackedScene)GD.Load("res://Scenes/Settings.tscn");
         // creditsScene = (PackedScene)GD.Load("res://Scenes/Credits.tscn");
 
-        // Set the main menu layout size and position
-        // MenuLayout.RectSize = new Vector2(800, 600); // Set the size of the main menu layout
-        // MenuLayout.RectPosition = new Vector2((GetViewport().Size.X - menuLayout.RectSize.X) / 2, (GetViewport().Size.Y - menuLayout.RectSize.Y) / 2); // Center the main menu layout
-        // GD.Print("MenuLayout size set to: " + menuLayout.RectSize + ", position set to: " + menuLayout.RectPosition);
-
-        // Set the label text for the main menu
-        Label titleLabel = GetNode<Label>("MenuLayout/TitleLabel");
-        titleLabel.Text = "Welcome to the Game!";
-        // titleLabel.AddThemeFontOverride("font_size", 36); // Set the font size for the title label
-        // titleLabel.AddThemeFontOverride("font_color", new Color(1, 1, 1)); // Set the font color for the title label
-        titleLabel.AddThemeFontOverride("font", (Font)GD.Load("res://fonts/CustomFont.tres")); // Set a custom font for the title label
-        GD.Print("Title label set to: " + titleLabel.Text);
-
-        // Set the background color for the main menu
-        ColorRect background = GetNode<ColorRect>("MenuLayout/Background");
-        background.Color = new Color(0.1f, 0.1f, 0.1f); // Set a dark gray background color
-        GD.Print("Background color set to: " + background.Color);
-
-        // Locate Menu Buttons
-        Button startButton = GetNode<Button>("MenuLayout/ButtonLayout/StartButton");
-        Button settingsButton = GetNode<Button>("MenuLayout/ButtonLayout/SettingsButton");
-        Button creditsButton = GetNode<Button>("MenuLayout/ButtonLayout/CreditsButton");
-        Button quitButton = GetNode<Button>("MenuLayout/ButtonLayout/QuitButton");
 
         // Set the button text
         startButton.Text = "Start Game";
         settingsButton.Text = "Settings";
         creditsButton.Text = "Credits";
         quitButton.Text = "Quit";
-
-        // Subscribe each menu button to their respective signal
-        startButton.Pressed += OnStartButtonPressed;
-        settingsButton.Pressed += OnSettingsButtonPressed;
-        creditsButton.Pressed += OnCreditsButtonPressed;
-        quitButton.Pressed += OnQuitButtonPressed;
 
         GD.Print("Main menu is ready.");
     }
@@ -68,7 +50,7 @@ public partial class MainMenu : Control
     {
         GD.Print("Start button pressed. Loading game scene...");
         
-        // GetTree().ChangeSceneToPackedScene(gameplayScene);
+        GetTree().ChangeSceneToPacked(gameplayScene);
     }
 
     /// <summary>
@@ -79,37 +61,37 @@ public partial class MainMenu : Control
     private void OnSettingsButtonPressed()
     {
         // Load the settings scene when the settings button is pressed
+        ConfirmationDialog settingsConfirmationDialog = GetNode<ConfirmationDialog>("ButtonLayout/SettingsButton/SettingsDialog");
 
         GD.Print("Opening settings dialog...");
 
 
-
         //      For example, you can show a confirmation dialog for settings changes
-        GetNode<ConfirmationDialog>("SettingsDialog").PopupCentered();
+         settingsConfirmationDialog.PopupCentered();
         //      For example, you can set the dialog's title and text
-        GetNode<ConfirmationDialog>("SettingsDialog").Title = "Settings";
+         settingsConfirmationDialog.Title = "Settings";
 
         // Music Settings
-        // GetNode<ConfirmationDialog>("SettingsDialog").Text = "Music";
+         settingsConfirmationDialog.DialogText = "Music";
         //     Add a button to turn on the music
-        GetNode<ConfirmationDialog>("SettingsDialog").AddButton("ON", true);
+         settingsConfirmationDialog.AddButton("ON", true);
         //     Add a button to turn off the music
-        GetNode<ConfirmationDialog>("SettingsDialog").AddButton("OFF", false);
+         settingsConfirmationDialog.AddButton("OFF", false);
 
         // More Settings
         // ...
 
 
         //      Connect the confirmed signal to a method to handle the confirmation
-        GetNode<ConfirmationDialog>("SettingsDialog").Confirmed += OnSettingsConfirmationDialogConfirmed;
-        // GetNode<ConfirmationDialog>("SettingsDialog").Cancelled += OnSettingsConfirmationDialogCancelled;
+         settingsConfirmationDialog.Confirmed += OnSettingsConfirmationDialogConfirmed;
+        //  settingsConfirmationDialog.Cancelled += OnSettingsConfirmationDialogCancelled;
     }
     private void OnSettingsConfirmationDialogConfirmed()
     {
         GD.Print("Settings confirmed. Applying changes...");
 
         // Ask the player if they want to apply the settings changes
-        // GetNode<ConfirmationDialog>("SettingsDialog").Text = "Do you want to apply the settings changes?";
+        //  settingsConfirmationDialog.Text = "Do you want to apply the settings changes?";
 
 
         // Apply settings changes here
@@ -129,7 +111,7 @@ public partial class MainMenu : Control
     /// </summary>
     private void OnCreditsButtonPressed()
     {
-        //GetTree().ChangeSceneToPackedScene(creditsScene);
+        // GetTree().ChangeSceneToPacked(creditsScene);
     }
 
     /// <summary>
@@ -196,16 +178,15 @@ public partial class MainMenu : Control
         }
         else
         {
-            // GD.Print("Mouse is outside the main menu area.");
+            GD.Print("Mouse is outside the main menu area.");
         }
 
         // Check if the mouse is hovering over the Start button
         //      Change the button color, text color, and button size when hovered
-        Button startButton = GetNode<Button>("StartButton");
         if (startButton.GetRect().HasPoint(mousePosition))
         {
             GD.Print("Mouse is hovering over the Start button.");
-            startButton.Modulate = new Color(1, 1, 0); // Change color to yellow when hovered
+            startButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
 
             // Change button size only when hovered over
             // startButton.RectSize = new Vector2(200, 50); // Example size change
@@ -218,44 +199,50 @@ public partial class MainMenu : Control
             // GD.Print("Mouse is not hovering over the Start button.");
         }
 
-        // Example: Check if the mouse is clicked
-        // if (Input.IsMouseButtonPressed(MouseButton.Left))
-        // {
-        //     GD.Print("Left mouse button is pressed in the main menu.");
-        // }
-        // Example: Check if the mouse is just clicked
-        // if (Input.IsMouseButtonJustPressed(MouseButton.Left))
-        // {
-        //     GD.Print("Left mouse button just pressed in the main menu.");
-        // }
-
-
-        // Example: Check if the mouse is released
-        // if (Input.IsMouseButtonJustReleased(MouseButton.Left))
-        // {
-        //     GD.Print("Left mouse button just released in the main menu.");
-        //     // You can trigger some action here if needed
-        // }
-
-
-        // Example: Check if the mouse wheel is scrolled
-        if (Input.IsMouseButtonPressed(MouseButton.WheelUp))
+        if (settingsButton.GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse wheel scrolled up in the main menu.");
+            GD.Print("Mouse is hovering over the Settings button.");
+            settingsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
+
+            // Change button size only when hovered over
+            // settingsButton.RectSize = new Vector2(200, 50); // Example size change
+            
+            // Change button text color when hovered
+            // settingsButton.AddThemeFontOverride("font_color", new Color(1, 0, 0)); // Change text color to red
+        }
+        else
+        {
+            // GD.Print("Mouse is not hovering over the Settings button.");
+        }
+
+        if (creditsButton.GetRect().HasPoint(mousePosition))
+        {
+            GD.Print("Mouse is hovering over the Credits button.");
+            creditsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
+
+            // Change button size only when hovered over
+            // creditsButton.RectSize = new Vector2(200, 50); // Example size change
+            
+            // Change button text color when hovered
+            // creditsButton.AddThemeFontOverride("font_color", new Color(1, 0, 0)); // Change text color to red
+        }
+        else
+        {
+            // GD.Print("Mouse is not hovering over the Credits button.");
         }
 
         
 
         
         // Example: Check if the mouse is hovering over the Quit button
-        Control quitButton = GetNode<Control>("QuitButton");
         if (quitButton.GetRect().HasPoint(mousePosition))
         {
             GD.Print("Mouse is hovering over the Quit button.");
+            quitButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
         }
         else
         {
-            GD.Print("Mouse is not hovering over the Quit button.");
+            // GD.Print("Mouse is not hovering over the Quit button.");
         }
         
 
