@@ -17,3 +17,5 @@ mono_crash.*.json
 /android/
 *.sln
 *.csproj
+.vscode/*
+.idea/*

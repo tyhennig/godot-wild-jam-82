@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Rect2 = Godot.Rect2;
 using System.Runtime.ConstrainedExecution;
 
 public partial class Grid : Node2D
@@ -7,7 +8,8 @@ public partial class Grid : Node2D
 	[Signal]
 	public delegate void GridClickedEventHandler(Vector2I cell);
 
-	private readonly int GridWidth = 16;
+	private readonly int GridWidth = 10;
+	private readonly int GridHeight = 10;
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -21,37 +23,46 @@ public partial class Grid : Node2D
 	{
 	}
 
+	// Called when an mouse input event occurs and converts to a screen coordinate
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventMouseButton eventMouseButton)
 		{
 			if (eventMouseButton.Pressed && eventMouseButton.ButtonIndex.Equals(MouseButton.Left))
 			{
-				// If the mouse is currently in the grid space
-				Vector2 localMouseVec2 = ToLocal(eventMouseButton.Position);
-				if (localMouseVec2.Abs().X <= 160 && localMouseVec2.Abs().Y <= 160)
+				// Get the sprite's size to determine clickable area
+				var sprite = GetNode<Sprite2D>("GridSprite"); // Adjust the node name and path as needed
+				if (sprite != null)
 				{
-					Vector2I gridCell = _localMouseVec2ToGridVec2(localMouseVec2);
-					GD.Print("Clicked Grid Coordinate: ", gridCell);
-					EmitSignal(SignalName.GridClicked, gridCell);
+					Vector2 spriteSize = sprite.Texture.GetSize() * sprite.Scale;
+					Vector2 position = sprite.Position - (spriteSize / 2);
+
+					// Create a Rect2 representing the sprite's bounds
+					var spriteBounds = new Rect2(position, spriteSize);
+
+					// Check if the mouse position is within the bounds
+					if (spriteBounds.HasPoint(ToLocal(eventMouseButton.Position)))
+					{
+						Vector2I gridCell = GetGridCell(eventMouseButton.Position);
+						GD.Print("Clicked Grid Coordinate: ", gridCell);
+						EmitSignal(SignalName.GridClicked, gridCell );
+					}
 				}
 			}
 		}
 	}
 
-	private Vector2I _localMouseVec2ToGridVec2(Vector2 mouseVec2)
+	private Vector2I GetGridCell(Vector2 mousePosition)
 	{
-		// Shift coordinate into positive space
-		// Local coordinate plus 
-		Vector2 posMouseVec2 = mouseVec2 + new Vector2(160, 160);
-
-		Vector2I gridVec2 = (Vector2I)(posMouseVec2 / 20);
-		gridVec2 = gridVec2.Clamp(0, 15);
-
-		// If we want to use a single integer to represent the cells use this:
-		//return gridVec2.X + (gridVec2.Y * GridWidth);
-
-		return gridVec2;
+		var sprite = GetNode<Sprite2D>("GridSprite");
+		Vector2 spriteSize = sprite.Texture.GetSize() * sprite.Scale;
+		Vector2 cellSize = new Vector2(spriteSize.X / GridWidth, spriteSize.Y / GridHeight);
+    
+		// Convert to local coordinates relative to grid origin
+		Vector2 localPos = ToLocal(mousePosition);
+		Vector2 adjustedPos = localPos + (spriteSize / 2);
+    
+		return (Vector2I)(adjustedPos / cellSize);
 	}
 
 }
