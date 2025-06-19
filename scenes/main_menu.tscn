@@ -1,52 +1,84 @@
-[gd_scene load_steps=2 format=3 uid="uid://dup4geigacidd"]
+[gd_scene load_steps=5 format=3 uid="uid://dup4geigacidd"]
 
 [ext_resource type="Script" uid="uid://c0o45q3kqbdjx" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="Theme" uid="uid://30mgaogf1xh8" path="res://themes/custom_theme.tres" id="2_ekxnf"]
+[ext_resource type="Theme" uid="uid://dphc28t8dl3xm" path="res://themes/vboxcontainer_theme.tres" id="3_bqqt6"]
 
-[node name="MainMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 640.0
-offset_bottom = 360.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-script = ExtResource("1_l6cm7")
+[sub_resource type="Theme" id="Theme_ekxnf"]
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
+[node name="MainMenu" type="CenterContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_l6cm7")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("2_ekxnf")
 metadata/_edit_use_anchors_ = true
 
-[node name="ButtonLayout" type="VBoxContainer" parent="MarginContainer"]
+[node name="ButtonLayout" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
+theme = ExtResource("3_bqqt6")
 
-[node name="StartButton" type="Button" parent="MarginContainer/ButtonLayout"]
+[node name="Label" type="Label" parent="PanelContainer/ButtonLayout"]
+layout_mode = 2
+text = "Gridwreck"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="PanelContainer/ButtonLayout"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Start Game"
 
-[node name="SettingsButton" type="Button" parent="MarginContainer/ButtonLayout"]
+[node name="SettingsButton" type="Button" parent="PanelContainer/ButtonLayout"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Settings"
 
-[node name="SettingsDialog" type="ConfirmationDialog" parent="MarginContainer/ButtonLayout/SettingsButton"]
+[node name="SettingsDialog" type="ConfirmationDialog" parent="PanelContainer/ButtonLayout/SettingsButton"]
+unique_name_in_owner = true
 auto_translate_mode = 1
 title = "Settings"
+initial_position = 2
+ok_button_text = "Apply"
 
-[node name="CreditsButton" type="Button" parent="MarginContainer/ButtonLayout"]
+[node name="CheckButton" type="CheckButton" parent="PanelContainer/ButtonLayout/SettingsButton/SettingsDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 51.0
+button_pressed = true
+text = "Music"
+alignment = 1
+
+[node name="CreditsButton" type="Button" parent="PanelContainer/ButtonLayout"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Credits"
 
-[node name="QuitButton" type="Button" parent="MarginContainer/ButtonLayout"]
+[node name="QuitButton" type="Button" parent="PanelContainer/ButtonLayout"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 text = "Quit"
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+[node name="QuitConfirmationDialog" type="ConfirmationDialog" parent="PanelContainer/ButtonLayout/QuitButton"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+title = "Quit Game"
+initial_position = 2
+size = Vector2i(252, 100)
+theme = SubResource("Theme_ekxnf")
+ok_button_text = "Confirm"
+dialog_text = "Are you sure?"
+dialog_autowrap = true
 
-[connection signal="pressed" from="MarginContainer/ButtonLayout/StartButton" to="." method="OnStartButtonPressed"]
-[connection signal="pressed" from="MarginContainer/ButtonLayout/SettingsButton" to="." method="OnSettingsButtonPressed"]
-[connection signal="pressed" from="MarginContainer/ButtonLayout/CreditsButton" to="." method="OnCreditsButtonPressed"]
-[connection signal="pressed" from="MarginContainer/ButtonLayout/QuitButton" to="." method="OnQuitButtonPressed"]
+[connection signal="pressed" from="PanelContainer/ButtonLayout/StartButton" to="." method="OnStartButtonPressed"]
+[connection signal="pressed" from="PanelContainer/ButtonLayout/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="PanelContainer/ButtonLayout/CreditsButton" to="." method="OnCreditsButtonPressed"]
+[connection signal="pressed" from="PanelContainer/ButtonLayout/QuitButton" to="." method="OnQuitButtonPressed"]

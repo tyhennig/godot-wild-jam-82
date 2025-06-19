@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3 uid="uid://qtaqwwh06q48"]
+
+[ext_resource type="Theme" uid="uid://30mgaogf1xh8" path="res://themes/custom_theme.tres" id="1_0bpdh"]
+[ext_resource type="Script" uid="uid://bi77eih2386hx" path="res://scripts/Credits.cs" id="1_2ckv8"]
+
+[sub_resource type="Theme" id="Theme_wu84c"]
+
+[sub_resource type="Theme" id="Theme_yeqti"]
+default_font_size = 20
+
+[node name="Credits" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_wu84c")
+script = ExtResource("1_2ckv8")
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+auto_translate_mode = 1
+mode = 2
+title = "Credits"
+position = Vector2i(0, 36)
+size = Vector2i(170, 183)
+ok_button_text = "Main Menu"
+dialog_text = "Credit 1: Person
+Credit 2: Person
+Credit 3: Person
+Credit 4: Person"
+
+[node name="CreditsLayout" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_0bpdh")
+
+[node name="CreditsTitle" type="Label" parent="CreditsLayout"]
+layout_mode = 2
+size_flags_vertical = 1
+theme = SubResource("Theme_yeqti")
+text = "
+Credits
+"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="CreditsContents" type="Label" parent="CreditsLayout"]
+layout_mode = 2
+text = "Credit 1: Person
+Credit 2: Person
+Credit 3: Person
+Credit 4: Person
+
+
+"
+
+[node name="BackButton" type="Button" parent="CreditsLayout"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Back"
+
+[connection signal="pressed" from="CreditsLayout/BackButton" to="." method="OnBackButtonPressed"]

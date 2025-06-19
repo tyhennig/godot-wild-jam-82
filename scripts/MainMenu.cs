@@ -3,11 +3,12 @@ using System;
 
 public partial class MainMenu : Control
 {
-    // Preload the target scenes for fast transitions.
+    // Define packed scenes to transition to from the main menu
     private PackedScene gameplayScene;
-    // private PackedScene settingsScene;
-    // private PackedScene creditsScene;
+    private PackedScene creditsScene;
 
+
+    // Define the buttons in the main menu
     private Button startButton;
     private Button settingsButton;
     private Button creditsButton;
@@ -19,28 +20,22 @@ public partial class MainMenu : Control
         GD.Print("Initializing main menu...");
 
         // Locate Menu Buttons
-        startButton = GetNode<Button>("MarginContainer/ButtonLayout/StartButton");
-        settingsButton = GetNode<Button>("MarginContainer/ButtonLayout/SettingsButton");
-        creditsButton = GetNode<Button>("MarginContainer/ButtonLayout/CreditsButton");
-        quitButton = GetNode<Button>("MarginContainer/ButtonLayout/QuitButton");
+        startButton = GetNode<Button>("%StartButton");
+        settingsButton = GetNode<Button>("%SettingsButton");
+        creditsButton = GetNode<Button>("%CreditsButton");
+        quitButton = GetNode<Button>("%QuitButton");
 
         startButton.GrabFocus(); // Set focus on the Start button when the menu is ready
 
-        // Preloading scenes reduces delays during transitions.
+        // Preloading scenes reduces delays during transitions
         gameplayScene = GD.Load<PackedScene>("res://scenes/grid.tscn");
-        // settingsScene = (PackedScene)GD.Load("res://Scenes/Settings.tscn");
-        // creditsScene = (PackedScene)GD.Load("res://Scenes/Credits.tscn");
-
-
-        // Set the button text
-        startButton.Text = "Start Game";
-        settingsButton.Text = "Settings";
-        creditsButton.Text = "Credits";
-        quitButton.Text = "Quit";
+        creditsScene = GD.Load<PackedScene>("res://scenes/credits.tscn");
 
         GD.Print("Main menu is ready.");
     }
 
+
+    #region Start Logic
     /// <summary>
     /// This method is called when the start button is pressed.
     /// 
@@ -49,10 +44,12 @@ public partial class MainMenu : Control
     private void OnStartButtonPressed()
     {
         GD.Print("Start button pressed. Loading game scene...");
-        
-        GetTree().ChangeSceneToPacked(gameplayScene);
+        // GetTree().ChangeSceneToPacked(gameplayScene);
+        Hide();
     }
+    #endregion Start Logic
 
+    #region Settings Logic
     /// <summary>
     /// This method is called when the settings button is pressed.
     /// 
@@ -61,49 +58,21 @@ public partial class MainMenu : Control
     private void OnSettingsButtonPressed()
     {
         // Load the settings scene when the settings button is pressed
-        ConfirmationDialog settingsConfirmationDialog = GetNode<ConfirmationDialog>("MarginContainer/ButtonLayout/SettingsButton/SettingsDialog");
+        ConfirmationDialog settingsDialog = GetNode<ConfirmationDialog>("%SettingsDialog");
 
         GD.Print("Opening settings dialog...");
-
-
-        //      For example, you can show a confirmation dialog for settings changes
-         settingsConfirmationDialog.PopupCentered();
-        //      For example, you can set the dialog's title and text
-         settingsConfirmationDialog.Title = "Settings";
-
-        // Music Settings
-         settingsConfirmationDialog.DialogText = "Music";
-        //     Add a button to turn on the music
-         settingsConfirmationDialog.AddButton("ON", true);
-        //     Add a button to turn off the music
-         settingsConfirmationDialog.AddButton("OFF", false);
-
-        // More Settings
-        // ...
-
-
-        //      Connect the confirmed signal to a method to handle the confirmation
-         settingsConfirmationDialog.Confirmed += OnSettingsConfirmationDialogConfirmed;
-        //  settingsConfirmationDialog.Cancelled += OnSettingsConfirmationDialogCancelled;
+        settingsDialog.Confirmed += OnSettingsConfirmationDialogConfirmed;
     }
     private void OnSettingsConfirmationDialogConfirmed()
     {
         GD.Print("Settings confirmed. Applying changes...");
 
-        // Ask the player if they want to apply the settings changes
-        //  settingsConfirmationDialog.Text = "Do you want to apply the settings changes?";
-
-
         // Apply settings changes here
         // For example, save settings to a file or apply them to the game
     }
-    private void OnSettingsConfirmationDialogCancelled()
-    {
-        GD.Print("Settings changes cancelled. Returning to main menu.");
-        // Handle cancellation of settings changes here
-        // For example, revert any temporary changes made in the settings dialog
-    }
+    #endregion Settings Logic
 
+    #region Credits Logic
     /// <summary>
     /// This method is called when the credits button is pressed.
     /// 
@@ -111,9 +80,12 @@ public partial class MainMenu : Control
     /// </summary>
     private void OnCreditsButtonPressed()
     {
-        // GetTree().ChangeSceneToPacked(creditsScene);
+        GD.Print("Credits button pressed. Loading credits scene...");
+        GetTree().ChangeSceneToPacked(creditsScene);
     }
+    #endregion Credits Logic
 
+    #region Quit Logic
     /// <summary>
     /// This method is called when the quit button is pressed.
     /// 
@@ -122,12 +94,11 @@ public partial class MainMenu : Control
     private void OnQuitButtonPressed()
     {
         GD.Print("Attempting to quit the game...");
-        GetNode<ConfirmationDialog>("ConfirmationDialog").PopupCentered();
-        // GetNode<ConfirmationDialog>("ConfirmationDialog").Text = "Are you sure you want to quit the game?";
-        GetNode<ConfirmationDialog>("ConfirmationDialog").Confirmed += OnQuitConfirmationDialogConfirmed;
-        // GetNode<ConfirmationDialog>("ConfirmationDialog").Cancelled += OnQuitConfirmationDialogCancelled;
-    }
 
+        var quitConfirmationDialog = GetNode<ConfirmationDialog>("%QuitConfirmationDialog");
+        quitConfirmationDialog.Confirmed += OnQuitConfirmationDialogConfirmed;
+    }
+    
     /// <summary>
     /// This method is called when the confirmation dialog is confirmed for quitting the game.
     /// 
@@ -138,47 +109,30 @@ public partial class MainMenu : Control
         // If you have a game state manager, you might want to save the save game state or release game resources here.
         // Make sure the game can resume correctly next time.
         // ...
-        
+
         GD.Print("Confirmed exit. Quitting the game...");
         GetTree().Quit(); // This will close the game window and exit the application
     }
-    /// <summary>
-    /// This method is called when the confirmation dialog is cancelled for quitting the game.
-    /// </summary>
-    private void OnQuitConfirmationDialogCancelled()
-    {
-        GD.Print("Quit confirmation dialog cancelled. Returning to main menu.");
-    }
+    #endregion Quit Logic
+
 
     /// <summary>
-    /// This method is called to handle input events in the main menu.
-    /// It can be used to handle keyboard input, mouse clicks, or other input events.
+    /// This method is called every frame to process input events and update the main menu.
+    /// 
+    /// It checks for mouse position, button hover states, and key presses.
     /// </summary>
-    /// <param name="event"></param>
-    public override void _Input(InputEvent @event)
-    {
-        // Handle input events if needed
-        // if (@event is InputEventKey eventKey && eventKey.Pressed)
-        // {
-        //     if (eventKey.KeyCode == Key.Escape)
-        //     {
-        //         // Exit the game when the Escape key is pressed
-        //         GetTree().Quit();
-        //     }
-        // }
-    }
-
+    /// <param name="delta"></param>
     public override void _Process(double delta)
     {
         // Example: Check if the mouse is inside the main menu area
         Vector2 mousePosition = GetViewport().GetMousePosition();
         if (GetRect().HasPoint(mousePosition))
         {
-            GD.Print("Mouse is inside the main menu area.");
+            // GD.Print("Mouse is inside the main menu area.");
         }
         else
         {
-            GD.Print("Mouse is outside the main menu area.");
+            // GD.Print("Mouse is outside the main menu area.");
         }
 
         // Check if the mouse is hovering over the Start button
@@ -186,27 +140,32 @@ public partial class MainMenu : Control
         if (startButton.GetRect().HasPoint(mousePosition))
         {
             GD.Print("Mouse is hovering over the Start button.");
-            startButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
+            // startButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
 
-            // Change button size only when hovered over
-            // startButton.RectSize = new Vector2(200, 50); // Example size change
-            
-            // Change button text color when hovered
-            // startButton.AddThemeFontOverride("font_color", new Color(1, 0, 0)); // Change text color to red
+            // // Set background color
+            // var styleBox = new StyleBoxFlat
+            // {
+            //     BgColor = new Color(0.2f, 0.6f, 0.8f) // Example color
+            // };
+            // startButton.AddThemeStyleboxOverride("normal", styleBox);
+
+            // // Set font color
+            // startButton.AddThemeColorOverride("font_color", new Color(1, 1, 1));
         }
         else
         {
             // GD.Print("Mouse is not hovering over the Start button.");
         }
 
+
         if (settingsButton.GetRect().HasPoint(mousePosition))
         {
             GD.Print("Mouse is hovering over the Settings button.");
-            settingsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
+            // settingsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
 
             // Change button size only when hovered over
             // settingsButton.RectSize = new Vector2(200, 50); // Example size change
-            
+
             // Change button text color when hovered
             // settingsButton.AddThemeFontOverride("font_color", new Color(1, 0, 0)); // Change text color to red
         }
@@ -218,11 +177,11 @@ public partial class MainMenu : Control
         if (creditsButton.GetRect().HasPoint(mousePosition))
         {
             GD.Print("Mouse is hovering over the Credits button.");
-            creditsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
+            // creditsButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
 
             // Change button size only when hovered over
             // creditsButton.RectSize = new Vector2(200, 50); // Example size change
-            
+
             // Change button text color when hovered
             // creditsButton.AddThemeFontOverride("font_color", new Color(1, 0, 0)); // Change text color to red
         }
@@ -231,20 +190,20 @@ public partial class MainMenu : Control
             // GD.Print("Mouse is not hovering over the Credits button.");
         }
 
-        
 
-        
+
+
         // Example: Check if the mouse is hovering over the Quit button
         if (quitButton.GetRect().HasPoint(mousePosition))
         {
             GD.Print("Mouse is hovering over the Quit button.");
-            quitButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
+            // quitButton.Modulate = new Color(1, 1, 1); // Change color to white for hover effect 
         }
         else
         {
             // GD.Print("Mouse is not hovering over the Quit button.");
         }
-        
+
 
         // Example: Check if a specific key is pressed
         if (Input.IsKeyPressed(Key.Escape))
@@ -252,9 +211,9 @@ public partial class MainMenu : Control
             GD.Print("Escape key pressed in the main menu. Exiting game.");
 
             // Confirm the exit action
-            GetNode<ConfirmationDialog>("ConfirmationDialog").PopupCentered();
+            // GetNode<ConfirmationDialog>("ConfirmationDialog").PopupCentered();
             // GetNode<ConfirmationDialog>("ConfirmationDialog").Text = "Are you sure you want to quit the game?";
-            GetNode<ConfirmationDialog>("ConfirmationDialog").Confirmed += OnQuitConfirmationDialogConfirmed;
+            // GetNode<ConfirmationDialog>("ConfirmationDialog").Confirmed += OnQuitConfirmationDialogConfirmed;
             // GetNode<ConfirmationDialog>("ConfirmationDialog").Cancelled += OnQuitConfirmationDialogCancelled;
 
             GetTree().Quit(); // Exit the game when the Escape key is pressed
