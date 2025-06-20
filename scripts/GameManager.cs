@@ -20,7 +20,7 @@ public partial class GameManager : Node
 	public int StartingEnergy { get; private set; }
 	public int CurrentScans { get; private set; } = 5;
 	public int CurrentEnergy { get; private set; } = 5;
-	public Cursor ActiveCursor { get; set; }
+	
 
 	public States CurrentState { get; private set; } = States.Nothing;
 	public enum States
