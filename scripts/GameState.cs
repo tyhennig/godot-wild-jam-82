@@ -5,6 +5,8 @@ public partial class GameState : Node
 {
 	[Signal]
 	public delegate void NewRoundEventHandler(int roundNumber);
+	private PackedScene mainMenuScene;
+
 
 	public static GameState Instance { get; private set; }
 	public int RoundNumber { get; private set; }
@@ -29,6 +31,8 @@ public partial class GameState : Node
 	{
 		Instance = this;
 
+		mainMenuScene = GD.Load<PackedScene>("res://scenes/main_menu.tscn");
+
 		//Signal Setup
 		var actionNode = GetNode<Actions>("/root/Main/UI/Actions");
 		actionNode.FirePressed += OnFirePressed;
@@ -36,6 +40,7 @@ public partial class GameState : Node
 
 		var gridNode = GetNode<Grid>("/root/Main/World/Grid");
 		gridNode.GridClicked += OnGridClicked;
+		gridNode.Show(); // TODO: The grid node wasn't showing unless I forced it to show here, investigate why. Didn't see this issue until after pulling the commit before this one.
 
 		//Node References
 		enemyPlacer = GetNode<EnemyPlacer>("/root/Main/World/EnemyPlacer");
