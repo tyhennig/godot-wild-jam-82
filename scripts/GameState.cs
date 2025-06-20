@@ -1,10 +1,19 @@
 using Godot;
+using Godot.Collections;
 using System;
+using System.Collections.Generic;
+using System.Numerics;
 
 public partial class GameState : Node
 {
 	[Signal]
 	public delegate void NewRoundEventHandler(int roundNumber);
+
+	[Signal]
+	public delegate void FiredOnGridEventHandler(Array<Vector2I> cells);
+	[Signal]
+	public delegate void ScannedGridEventHandler(Array<Vector2I> cells);
+
 	private PackedScene mainMenuScene;
 
 
@@ -16,7 +25,6 @@ public partial class GameState : Node
 	public int CurrentScans { get; private set; }
 	public int CurrentEnergy { get; private set; }
 
-	private EnemyPlacer enemyPlacer;
 	public States CurrentState { get; private set; }
 	public enum States
 	{
@@ -40,31 +48,29 @@ public partial class GameState : Node
 
 		var gridNode = GetNode<Grid>("/root/Main/World/Grid");
 		gridNode.GridClicked += OnGridClicked;
-		gridNode.Show(); // TODO: The grid node wasn't showing unless I forced it to show here, investigate why. Didn't see this issue until after pulling the commit before this one.
 
-		//Node References
-		enemyPlacer = GetNode<EnemyPlacer>("/root/Main/World/EnemyPlacer");
+		var mainMenuNode = GetNode<MainMenu>("/root/Main/UI/MainMenu");
+		mainMenuNode.StartGame += OnStartGame;
 
-
-		_initializeNewGameData();
+		var enemyManagerNode = GetNode<EnemyShipManager>("/root/Main/World/Grid/EnemyShipManager");
+		enemyManagerNode.AllShipsDestroyed += OnRoundEnd;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is InputEventKey eventKey)
-		{
-			if (eventKey.Pressed && eventKey.Keycode == Key.N)
-			{
-				_initializeNewRound();
-			}
-		}
+		
     }
 
+    private void OnStartGame()
+    {
+		_initializeNewGameData();
+    }
 
 	private void _initializeNewGameData()
 	{
@@ -78,6 +84,7 @@ public partial class GameState : Node
 	}
 	private void _initializeNewRound()
 	{
+		GD.Print("Initializing New Round!");
 		RoundNumber++;
 		CurrentScans = StartingScans;
 		CurrentEnergy = StartingEnergy;
@@ -87,21 +94,36 @@ public partial class GameState : Node
 
 	private void OnGridClicked(Vector2I cell)
     {
+		Array<Vector2I> cells;
         switch (CurrentState)
 		{
 			case States.Firing:
 				GD.Print("Firing on ", cell);
 				if (CurrentEnergy >= 1) CurrentEnergy--;
+				cells = [cell];
+				EmitSignal(SignalName.FiredOnGrid, cells);
 				break;
 			case States.Scanning:
 				GD.Print("Scanning on ", cell);
 				if (CurrentScans >= 1) CurrentScans--;
+				cells = [cell];
+				EmitSignal(SignalName.ScannedGrid, cells);
 				break;
 			case States.Nothing:
 				break;
 		}
     }
 
+	private void OnRoundEnd()
+	{
+		var shopScene = GD.Load<PackedScene>("res://scenes/shop.tscn");
+		Shop shop = shopScene.Instantiate() as Shop;
+		shop.test = "It Succeeded";
+
+		shop.TreeExited += _initializeNewRound;
+
+		AddChild(shop);
+	}
 
 	private void OnFirePressed()
 	{

@@ -3,6 +3,10 @@ using System;
 
 public partial class MainMenu : Control
 {
+
+    [Signal]
+    public delegate void StartGameEventHandler();
+
     // Define packed scenes to transition to from the main menu
     private PackedScene gameplayScene;
     private PackedScene creditsScene;
@@ -45,6 +49,7 @@ public partial class MainMenu : Control
     {
         GD.Print("Start button pressed. Loading game scene...");
         // GetTree().ChangeSceneToPacked(gameplayScene);
+        EmitSignal(SignalName.StartGame);
         Hide();
     }
     #endregion Start Logic

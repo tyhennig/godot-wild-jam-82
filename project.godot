@@ -31,6 +31,10 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="Gridwreck"
 
+[global_group]
+
+enemy_ships=""
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

@@ -1,9 +1,28 @@
-[gd_scene format=3 uid="uid://ceem5b2uwqmca"]
+[gd_scene load_steps=2 format=3 uid="uid://ceem5b2uwqmca"]
 
-[node name="Shop" type="Control"]
-layout_mode = 3
+[ext_resource type="Script" uid="uid://ffx672iqk7rl" path="res://scripts/Shop.cs" id="1_lx5au"]
+
+[node name="Shop" type="CanvasLayer"]
+script = ExtResource("1_lx5au")
+
+[node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0.0470588, 0.101961, 1)
+
+[node name="NextRoundButton" type="Button" parent="."]
+offset_left = 270.0
+offset_top = 304.0
+offset_right = 370.0
+offset_bottom = 335.0
+text = "Next Round"
+
+[node name="TestLabel" type="Label" parent="."]
+offset_left = 517.0
+offset_top = 49.0
+offset_right = 557.0
+offset_bottom = 72.0
+text = "Editor"

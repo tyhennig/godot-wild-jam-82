@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://k125mdqfg5bi" path="res://scripts/EnemyShip.cs" id="1_6o8wj"]
 
-[node name="EnemyShip" type="Node2D"]
+[node name="EnemyShip" type="Node2D" groups=["enemy_ships"]]
 script = ExtResource("1_6o8wj")
