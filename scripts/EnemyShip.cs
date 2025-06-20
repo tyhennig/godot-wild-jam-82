@@ -6,8 +6,7 @@ using System.Numerics;
 
 public partial class EnemyShip : Node2D
 {
-	[Signal]
-	public delegate void ShipHitEventHandler(Vector2I cell);
+
 
 	[Signal]
 	public delegate void ShipScannedEventHandler(Vector2I cell);
@@ -54,7 +53,7 @@ public partial class EnemyShip : Node2D
 			{
 				GD.Print("Hit Enemy Ship!");
 				GridLocations.Remove(cell);
-				EmitSignal(SignalName.ShipHit, cell);
+				SignalBus.Instance.EmitSignal(SignalBus.SignalName.ShipHit, cell);
 			}
 		}
 

@@ -23,9 +23,9 @@ theme = ExtResource("2_xfvoa")
 text = "Next Round"
 
 [node name="TestLabel" type="Label" parent="."]
-offset_left = 517.0
-offset_top = 49.0
-offset_right = 557.0
-offset_bottom = 72.0
+offset_left = 300.0
+offset_top = 59.0
+offset_right = 362.0
+offset_bottom = 82.0
 theme = ExtResource("2_xfvoa")
 text = "Editor"
