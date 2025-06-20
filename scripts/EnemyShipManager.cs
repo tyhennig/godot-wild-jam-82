@@ -12,7 +12,7 @@ public partial class EnemyShipManager : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GameState.Instance.NewRound += PlaceEnemyShips;
+		GameManager.Instance.NewRound += PlaceEnemyShips;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,7 +33,7 @@ public partial class EnemyShipManager : Node
 
 	public void OnShipDestroyed()
 	{
-		// Once all the ships are destroyed, notify the GameState
+		// Once all the ships are destroyed, notify the GameManager
 		if (GetTree().GetNodeCountInGroup("enemy_ships") <= 0)
 		{
 			EmitSignal(SignalName.AllShipsDestroyed);

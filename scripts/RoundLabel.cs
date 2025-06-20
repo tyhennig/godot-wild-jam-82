@@ -6,7 +6,7 @@ public partial class RoundLabel : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GameState.Instance.NewRound += UpdateRoundNumber;
+		GameManager.Instance.NewRound += UpdateRoundNumber;
 	}
 
 	private void UpdateRoundNumber(int roundNumber)

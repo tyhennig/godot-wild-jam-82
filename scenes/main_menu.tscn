@@ -27,7 +27,7 @@ theme = ExtResource("3_bqqt6")
 
 [node name="Label" type="Label" parent="PanelContainer/ButtonLayout"]
 layout_mode = 2
-text = "Gridwreck"
+text = "gridwreck"
 horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="PanelContainer/ButtonLayout"]

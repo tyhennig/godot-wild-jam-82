@@ -17,14 +17,14 @@ public partial class EnemyShip : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GameState.Instance.FiredOnGrid += OnFired;
-		GameState.Instance.ScannedGrid += OnScanned;
+		GameManager.Instance.FiredOnGrid += OnFired;
+		GameManager.Instance.ScannedGrid += OnScanned;
 	}
 
 	public override void _ExitTree()
 	{
-		GameState.Instance.FiredOnGrid -= OnFired;
-		GameState.Instance.ScannedGrid -= OnScanned;
+		GameManager.Instance.FiredOnGrid -= OnFired;
+		GameManager.Instance.ScannedGrid -= OnScanned;
     }
 
 

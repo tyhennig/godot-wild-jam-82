@@ -1,10 +1,7 @@
 using Godot;
 using Godot.Collections;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
 
-public partial class GameState : Node
+public partial class GameManager : Node
 {
 	[Signal]
 	public delegate void NewRoundEventHandler(int roundNumber);
@@ -14,10 +11,20 @@ public partial class GameState : Node
 	[Signal]
 	public delegate void ScannedGridEventHandler(Array<Vector2I> cells);
 
-	private PackedScene mainMenuScene;
+	[Export]
+	public Actions Actions { get; set; }
+
+	[Export]
+	public Grid Grid { get; set; }
+
+	[Export]
+	public MainMenu MainMenu { get; set; }
+
+	[Export]
+	public EnemyShipManager EnemyShipManager { get; set; }
 
 
-	public static GameState Instance { get; private set; }
+	public static GameManager Instance { get; private set; }
 	public int RoundNumber { get; private set; }
 	public int Currency { get; private set; }
 	public int StartingScans { get; private set; }
@@ -38,8 +45,6 @@ public partial class GameState : Node
 	public override void _Ready()
 	{
 		Instance = this;
-
-		mainMenuScene = GD.Load<PackedScene>("res://scenes/main_menu.tscn");
 
 		//Signal Setup
 		var actionNode = GetNode<Actions>("/root/Main/UI/Actions");
