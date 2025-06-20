@@ -18,10 +18,6 @@ config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
 GameState="*res://scripts/GameState.cs"
 
-[autoload]
-
-GameState="*res://scripts/GameState.cs"
-
 [display]
 
 window/size/viewport_width=640

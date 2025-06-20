@@ -9,6 +9,7 @@ public partial class EnemyPlacer : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GameState.Instance.NewRound += PlaceEnemyShips;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -18,6 +19,7 @@ public partial class EnemyPlacer : Node
 
 	public void PlaceEnemyShips(int roundNumber)
 	{
+		GD.Print("Placing Enemy Ships!");
 		var enemyScene = GD.Load<PackedScene>("res://scenes/enemy_ship.tscn");
 		EnemyShip instance = enemyScene.Instantiate() as EnemyShip;
 		instance.GridLocations = [new Vector2I(0, 0), new Vector2I(0, 1), new Vector2I(0, 2)];

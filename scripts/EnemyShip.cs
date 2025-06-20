@@ -22,7 +22,7 @@ public partial class EnemyShip : Node2D
 	{
 		if (GridLocations.Contains(cell))
 		{
-			GD.Print("Clicked Enemy Ship!");
+			GD.Print("Clicked Enemy Ship!"); 
 		}
 	}
 	

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://csbiyo7sqxvjb"]
+
+[ext_resource type="Script" uid="uid://bhiy3l0oeipd3" path="res://scripts/RoundLabel.cs" id="1_wodwt"]
+
+[node name="RoundNumber" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wodwt")
+
+[node name="RoundLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

@@ -3,6 +3,9 @@ using System;
 
 public partial class GameState : Node
 {
+	[Signal]
+	public delegate void NewRoundEventHandler(int roundNumber);
+
 	public static GameState Instance { get; private set; }
 	public int RoundNumber { get; private set; }
 	public int Currency { get; private set; }
@@ -74,7 +77,7 @@ public partial class GameState : Node
 		CurrentScans = StartingScans;
 		CurrentEnergy = StartingEnergy;
 		CurrentState = States.Nothing;
-		enemyPlacer.PlaceEnemyShips(RoundNumber);
+		EmitSignal(SignalName.NewRound, RoundNumber);
 	}
 
 	private void OnGridClicked(Vector2I cell)
