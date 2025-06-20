@@ -10,6 +10,8 @@ public partial class EnemyShip : Node2D
 
 	[Signal]
 	public delegate void ShipScannedEventHandler(Vector2I cell);
+	[Signal]
+	public delegate void ShipDestroyedEventHandler(EnemyShip ship);
 
 	public List<Vector2I> GridLocations { get; set; }
 
@@ -60,7 +62,7 @@ public partial class EnemyShip : Node2D
 		if (GridLocations.Count == 0)
 		{
 			GD.Print("Destroyed Ship!");
-			this.QueueFree();
+			EmitSignal(SignalName.ShipDestroyed, this);
 		}
 	}
 	

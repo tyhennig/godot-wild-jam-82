@@ -20,6 +20,7 @@ public partial class GameManager : Node
 	public int StartingEnergy { get; private set; }
 	public int CurrentScans { get; private set; } = 5;
 	public int CurrentEnergy { get; private set; } = 5;
+	public Cursor ActiveCursor { get; set; }
 
 	public States CurrentState { get; private set; } = States.Nothing;
 	public enum States
@@ -146,10 +147,16 @@ public partial class GameManager : Node
 	private async void CheckGameOver()
 	{
 		// THIS IS SO JANKY
-		await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
 		GD.Print("Checking Game over, ships left: ", GetTree().GetNodeCountInGroup("enemy_ships"));
 		if (GetTree().GetNodeCountInGroup("enemy_ships") > 0)
 		{
+			foreach (var ship in GetTree().GetNodesInGroup("enemy_ships"))
+			{
+				ship.QueueFree();
+			}
+			
+			CurrentState = States.Nothing;
 			// Do game over logic
 			GetNode<MainMenu>("/root/Main/UI/MainMenu").Show();
 		}

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://de2oahbdq2jia"]
+
+[ext_resource type="Script" uid="uid://s57527rq1l7g" path="res://scripts/Cursor.cs" id="1_s0nli"]
+
+[node name="Cursor" type="Node2D"]
+script = ExtResource("1_s0nli")
+MinVec2 = Vector2i(161, 19)
+MaxVec2 = Vector2i(483, 341)
+GridOrigin = Vector2i(161, 19)

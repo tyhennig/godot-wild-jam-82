@@ -25,16 +25,19 @@ public partial class EnemyShipManager : Node
 		GD.Print("Placing Enemy Ships!");
 		var enemyScene = GD.Load<PackedScene>("res://scenes/enemy_ship.tscn");
 		EnemyShip instance = enemyScene.Instantiate() as EnemyShip;
-		instance.TreeExited += OnShipDestroyed;
+		instance.ShipDestroyed += OnShipDestroyed;
 
 		instance.GridLocations = [new Vector2I(0, 0), new Vector2I(0, 1), new Vector2I(0, 2)];
 		AddChild(instance);
 	}
 
-	public void OnShipDestroyed()
+	public void OnShipDestroyed(EnemyShip ship)
 	{
-		// Once all the ships are destroyed, notify the GameManager
-		if (GetTree().GetNodeCountInGroup("enemy_ships") <= 0)
+		int remainingShips = GetTree().GetNodeCountInGroup("enemy_ships");
+
+		ship.QueueFree();
+		// If this is the last ship to be destroyed, send signal
+		if (remainingShips <= 1)
 		{
 			EmitSignal(SignalName.AllShipsDestroyed);
 		}
