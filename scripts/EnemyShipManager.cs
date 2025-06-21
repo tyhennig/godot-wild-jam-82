@@ -19,8 +19,6 @@ public partial class EnemyShipManager : Node
 	public override void _Ready()
 	{
 		GameManager.Instance.NewRound += PlaceEnemyShips;
-		ShipsCount = 1;
-		ShipsAddedPerRound = 1;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,13 +54,12 @@ public partial class EnemyShipManager : Node
 	private List<Vector2I> RandomLocationPicker()
 	{
 		// Random location for first ship-spot to be placed (assuming all ships are 3 spots wide)
-		int randomX = (int)GD.RandRange(0, 10);
-		int randomY = (int)GD.RandRange(0, 10);
+		int randomX = (int)GD.RandRange(0, 9);
+		int randomY = (int)GD.RandRange(0, 9);
 		int axis = (int)GD.RandRange(0, 1); // 0 for X, 1 for Y
 
 		List<Vector2I> ShipSpots = new List<Vector2I>();
 
-		// Check if i can create 2 more spots in the same (randomly chosen) axis
 		if (axis == 0) // X axis
 		{
 			if (randomX + 2 < 10) // Check if the ship will extend beyond the grid

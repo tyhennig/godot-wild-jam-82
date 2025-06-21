@@ -92,7 +92,7 @@ position = Vector2(320, 180)
 [node name="EnemyShipManager" type="Node" parent="World/Grid"]
 unique_name_in_owner = true
 script = ExtResource("5_tbgi4")
-ShipsCount = 1
+ShipsCount = 3
 ShipsAddedPerRound = 1
 
 [node name="Cursor" parent="World/Grid" instance=ExtResource("9_choun")]
