@@ -22,6 +22,15 @@ public partial class Grid : Node2D
 	private readonly int GridWidth = 10;
 	private readonly int GridHeight = 10;
 
+	public int GetGridWidth()
+	{
+		return GridWidth;
+	}
+	public int GetGridHeight()
+	{
+		return GridHeight;
+	}
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

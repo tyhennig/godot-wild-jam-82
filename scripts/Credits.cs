@@ -3,29 +3,23 @@ using System;
 
 public partial class Credits : PanelContainer
 {
-    private Button backButton;
-
-    private PackedScene mainMenuScene;
+    private Button startButton;
 
     public override void _Ready()
     {
         GD.Print("Initializing credits...");
 
-        // Locate the Back button
-        backButton = GetNode<Button>("CreditsLayout/BackButton");
-        backButton.GrabFocus(); // Set focus on the Back button when the credits are ready
-
-        // Save reference to the Main Menu scene
-        mainMenuScene = GD.Load<PackedScene>("res://scenes/main_menu.tscn");
+        startButton = GetNode<Button>("/root/Main/UI/MainMenu/PanelContainer/ButtonLayout/StartButton");
 
         GD.Print("Credits are ready.");
     }
 
     private void OnBackButtonPressed()
     {
-        GD.Print("Back button pressed. Returning to main menu...");
+        GD.Print("Back button pressed in credits. Returning to main menu...");
 
-        // Return to the main menu scene
-        GetTree().ChangeSceneToPacked(mainMenuScene);
+        this.Visible = false; // Hide the credits panel
+
+        startButton.GrabFocus();
     }
 }
