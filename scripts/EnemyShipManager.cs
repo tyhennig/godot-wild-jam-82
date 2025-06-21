@@ -62,11 +62,19 @@ public partial class EnemyShipManager : Node
 			// Check if the ship will extend beyond the grid, TODO: Also if there is already a ship there
 			if (randomX + 2 < 10)
 			{
-				ShipSpots.Add(new Vector2I(randomX, randomY)); // First spot
-				ShipSpots.Add(new Vector2I(randomX + 1, randomY)); // Second spot
-				ShipSpots.Add(new Vector2I(randomX + 2, randomY)); // Third spot
+				if (CheckShipOverlap(ShipSpots, randomX, randomY))
+				{
+					// If there is an overlap, try again
+					return RandomLocationPicker(); // Try again if there is an overlap
+				}
+				else
+				{
+					ShipSpots.Add(new Vector2I(randomX, randomY)); // First spot
+					ShipSpots.Add(new Vector2I(randomX + 1, randomY)); // Second spot
+					ShipSpots.Add(new Vector2I(randomX + 2, randomY)); // Third spot
 
-				return ShipSpots;
+					return ShipSpots;
+				}
 			}
 			else
 			{
@@ -80,11 +88,19 @@ public partial class EnemyShipManager : Node
 		{
 			if (randomY + 2 < 10)
 			{
-				ShipSpots.Add(new Vector2I(randomX, randomY)); // First spot
-				ShipSpots.Add(new Vector2I(randomX, randomY + 1)); // Second spot
-				ShipSpots.Add(new Vector2I(randomX, randomY + 2)); // Third spot
+				if (CheckShipOverlap(ShipSpots, randomX, randomY))
+				{
+					// If there is an overlap, try again
+					return RandomLocationPicker(); // Try again if there is an overlap
+				}
+				else
+				{
+					ShipSpots.Add(new Vector2I(randomX, randomY)); // First spot
+					ShipSpots.Add(new Vector2I(randomX, randomY + 1)); // Second spot
+					ShipSpots.Add(new Vector2I(randomX, randomY + 2)); // Third spot
 
-				return ShipSpots;
+					return ShipSpots;
+				}
 			}
 			else
 			{
@@ -94,6 +110,20 @@ public partial class EnemyShipManager : Node
 				return RandomLocationPicker();
 			}
 		}
+	}
+
+	private bool CheckShipOverlap(List<Vector2I> shipSpots, int randomX, int randomY)
+	{
+		// Check if there is a ship spot already at the given coordinates
+		foreach (var spot in shipSpots)
+		{
+			if (spot.X == randomX && spot.Y == randomY)
+			{
+				// GD.Print("Ship already exists at X: ", randomX, " Y: ", randomY, " - Cannot Place!");
+				return true; // Overlap found
+			}
+		}
+		return false; // No overlap found		
 	}
 
 	private int CheckRounds()
