@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
@@ -20,8 +21,8 @@ public partial class GameManager : Node
 	public int StartingEnergy { get; private set; }
 	public int CurrentScans { get; private set; } = 5;
 	public int CurrentEnergy { get; private set; } = 5;
+	public PackedScene ActiveCursorShape { get; set; }
 	
-
 	public States CurrentState { get; private set; } = States.Nothing;
 	public enum States
 	{
@@ -41,19 +42,40 @@ public partial class GameManager : Node
 		actionNode.FirePressed += OnFirePressed;
 		actionNode.ScanPressed += OnScanPressed;
 
-		var gridNode = GetNode<Grid>("/root/Main/World/Grid");
-		gridNode.GridClicked += OnGridClicked;
+		SignalBus.Instance.GridCellsSelected += OnGridClicked;
 
 		var mainMenuNode = GetNode<MainMenu>("/root/Main/UI/MainMenu");
 		mainMenuNode.StartGame += OnStartGame;
 
 		var enemyManagerNode = GetNode<EnemyShipManager>("/root/Main/World/Grid/EnemyShipManager");
 		enemyManagerNode.AllShipsDestroyed += OnRoundEnd;
+
+		GetNode<Button>("/root/Main/UI/ThreeCursor").Pressed += ActivateThree;
+		GetNode<Button>("/root/Main/UI/OneCursor").Pressed += ActivateOne;
+		GetNode<Button>("/root/Main/UI/ThreeThreeCursor").Pressed += ActivateThreeThreef;
+
 	}
 
+    private void ActivateThreeThreef()
+    {
+		ActiveCursorShape = GD.Load<PackedScene>("res://scenes/cursor_shapes/cursor_shape_3x3.tscn");
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+
+    private void ActivateOne()
+    {
+		ActiveCursorShape = GD.Load<PackedScene>("res://scenes/cursor_shapes/cursor_shape_1x1.tscn");
+    }
+
+
+    private void ActivateThree()
+    {
+		ActiveCursorShape = GD.Load<PackedScene>("res://scenes/cursor_shapes/cursor_shape_3x1.tscn");
+    }
+
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 
@@ -87,14 +109,13 @@ public partial class GameManager : Node
 		EmitSignal(SignalName.NewRound, RoundNumber);
 	}
 
-	private void OnGridClicked(Vector2I cell)
+	private void OnGridClicked(Array<Vector2I> cells)
 	{
 		GD.Print("Energy: ", CurrentEnergy);
-		Array<Vector2I> cells;
 		switch (CurrentState)
 		{
 			case States.Firing:
-				GD.Print("Firing on ", cell);
+				GD.Print("Firing on ", cells);
 				if (CurrentEnergy > 0)
 				{
 					CurrentEnergy--;
@@ -103,13 +124,12 @@ public partial class GameManager : Node
 				{
 					CallDeferred("CheckGameOver");
 				}
-				cells = [cell];
+				
 				EmitSignal(SignalName.FiredOnGrid, cells);
 				break;
 			case States.Scanning:
-				GD.Print("Scanning on ", cell);
+				GD.Print("Scanning on ", cells);
 				if (CurrentScans >= 1) CurrentScans--;
-				cells = [cell];
 				EmitSignal(SignalName.ScannedGrid, cells);
 				break;
 			case States.Nothing:

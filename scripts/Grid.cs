@@ -9,8 +9,12 @@ public partial class Grid : Node2D
 	[Signal]
 	public delegate void GridClickedEventHandler(Vector2I cell);
 
+	[Export]
+	private PackedScene _defaultCursorShape;
+
 	private List<Node> _hitIcons = new List<Node>();
 	private Sprite2D _gridSprite;
+	private Area2D _area2D;
 	private Vector2 _spriteSize;
 	private Vector2 _cellSize;
 
@@ -26,49 +30,56 @@ public partial class Grid : Node2D
 		GameManager.Instance.NewRound += OnNewRound;
 
 		_gridSprite = GetNode<Sprite2D>("GridSprite");
+
 		_spriteSize = _gridSprite.Texture.GetSize() * _gridSprite.Scale;
 		_cellSize = new Vector2(_spriteSize.X / GridWidth, _spriteSize.Y / GridHeight);
+
+		_area2D = GetNode<Area2D>("GridArea");
+		_area2D.MouseEntered += OnMouseEnteredGrid;
+		_area2D.MouseExited += OnMouseExitedGrid;
+
+		if (_defaultCursorShape == null)
+		{
+			GD.PushError("Must Define Default Cursor Shape");
+		}
+	}
+
+	private void OnMouseExitedGrid()
+	{
+		GD.Print("Removing Cursor");
+    }
+
+
+	private void OnMouseEnteredGrid()
+	{
+		// Create the Cursor
+		PackedScene shapeScene = GameManager.Instance.ActiveCursorShape;
+		CursorShape cursorShape;
+		if (shapeScene == null)
+		{
+			cursorShape = _defaultCursorShape.Instantiate() as CursorShape;
+		}
+		else
+		{
+			cursorShape = shapeScene.Instantiate() as CursorShape;
+		}
+
+		Cursor cursor = GD.Load<PackedScene>("res://scenes/cursor.tscn").Instantiate() as Cursor;
+		cursor.CursorShape = cursorShape;
+
+		_area2D.MouseExited += cursor.OnMouseExited;
+
+		AddChild(cursor);
 	}
 
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
 
-	public override void _Process(double delta)
+    public override void _Process(double delta)
 	{
 	}
 
-	// Called when an mouse input event occurs and converts to a screen coordinate
-	public override void _Input(InputEvent @event)
-	{
-		if (GameManager.Instance.CurrentState is not (GameManager.States.Firing or GameManager.States.Scanning))
-		{
-			// If we aren't firing or scanning just skip input processing
-			return;
-		}
-		
-		if (@event is InputEventMouseButton eventMouseButton)
-		{
-			if (eventMouseButton.Pressed && eventMouseButton.ButtonIndex.Equals(MouseButton.Left))
-			{
-				// Get the sprite's size to determine clickable area
-				if (_gridSprite != null)
-				{
-					Vector2 position = _gridSprite.Position - (_spriteSize / 2);
-
-					// Create a Rect2 representing the sprite's bounds
-					var spriteBounds = new Rect2(position, _spriteSize);
-
-					// Check if the mouse position is within the bounds
-					if (spriteBounds.HasPoint(ToLocal(eventMouseButton.Position)))
-					{
-						Vector2I gridCell = GetGridCell(eventMouseButton.Position);
-						GD.Print("Clicked Grid Coordinate: ", gridCell);
-						EmitSignal(SignalName.GridClicked, gridCell);
-					}
-				}
-			}
-		}
-	}
+	
 
 	private Vector2I GetGridCell(Vector2 mousePosition)
 	{

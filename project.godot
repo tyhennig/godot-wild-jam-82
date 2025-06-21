@@ -16,8 +16,8 @@ config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
 [autoload]
 
-GameManager="*res://scripts/GameManager.cs"
 SignalBus="*res://scripts/SignalBus.cs"
+GameManager="*res://scripts/GameManager.cs"
 
 [display]
 

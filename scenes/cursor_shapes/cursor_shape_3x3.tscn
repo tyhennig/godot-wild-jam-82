@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxjpnlsxqdm7r"]
+
+[ext_resource type="Script" uid="uid://doy7pyatqaixd" path="res://scripts/cursor_shapes/CursorShape3x3.cs" id="1_bkvds"]
+[ext_resource type="Texture2D" uid="uid://dmgbdio5mkpbh" path="res://assets/cursor_shapes/3x3.png" id="2_ui5xp"]
+
+[node name="CursorShape3x3" type="Node2D"]
+script = ExtResource("1_bkvds")
+
+[node name="3x3" type="Sprite2D" parent="."]
+texture = ExtResource("2_ui5xp")
