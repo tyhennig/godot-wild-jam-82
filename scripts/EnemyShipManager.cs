@@ -47,6 +47,12 @@ public partial class EnemyShipManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Randomly picks a location on the grid to place a ship.
+	/// The ship is assumed to be 3 spots wide, so it will check if there is enough space to place the ship or call itself again to retry.
+	/// If there is an overlap with existing ships, it will call itself recursively to try again.
+	/// </summary>
+	/// <returns>Ship grid cells as a list of 2D Vectors</returns>
 	private List<Vector2I> RandomLocationPicker()
 	{
 		// Random location for first ship-spot to be placed (assuming all ships are 3 spots wide)
@@ -56,15 +62,13 @@ public partial class EnemyShipManager : Node
 
 		List<Vector2I> ShipSpots = new List<Vector2I>();
 
-		// Check if i can create 2 more spots in the same axis
+		// Check if i can create 2 more spots in the same (randomly chosen) axis
 		if (axis == 0) // X axis
 		{
-			// Check if the ship will extend beyond the grid, TODO: Also if there is already a ship there
-			if (randomX + 2 < 10)
+			if (randomX + 2 < 10) // Check if the ship will extend beyond the grid
 			{
 				if (CheckShipOverlap(ShipSpots, randomX, randomY))
 				{
-					// If there is an overlap, try again
 					return RandomLocationPicker(); // Try again if there is an overlap
 				}
 				else
@@ -86,11 +90,10 @@ public partial class EnemyShipManager : Node
 		}
 		else // Y axis
 		{
-			if (randomY + 2 < 10)
+			if (randomY + 2 < 10) // Check if the ship will extend beyond the grid
 			{
 				if (CheckShipOverlap(ShipSpots, randomX, randomY))
 				{
-					// If there is an overlap, try again
 					return RandomLocationPicker(); // Try again if there is an overlap
 				}
 				else
@@ -112,14 +115,19 @@ public partial class EnemyShipManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Check if there is a ship spot already at the given coordinates
+	/// </summary>
+	/// <param name="shipSpots">Existing Ship Spots</param>
+	/// <param name="randomX">Current X contendor</param>
+	/// <param name="randomY">Current Y contendor</param>
+	/// <returns></returns>
 	private bool CheckShipOverlap(List<Vector2I> shipSpots, int randomX, int randomY)
 	{
-		// Check if there is a ship spot already at the given coordinates
 		foreach (var spot in shipSpots)
 		{
 			if (spot.X == randomX && spot.Y == randomY)
 			{
-				// GD.Print("Ship already exists at X: ", randomX, " Y: ", randomY, " - Cannot Place!");
 				return true; // Overlap found
 			}
 		}
