@@ -13,6 +13,7 @@ public partial class MainMenu : Control
 
     // Define the buttons in the main menu
     private Button startButton;
+    private bool isGameStarted = false; // Track if the start button has been pressed
     private Button settingsButton;
     private Button creditsButton;
     private Button quitButton;
@@ -43,7 +44,19 @@ public partial class MainMenu : Control
     private void OnStartButtonPressed()
     {
         GD.Print("Start button pressed. Loading game scene...");
-        EmitSignal(SignalName.StartGame);
+
+        // Logic for changing start-game to continue
+        if (isGameStarted)
+        {
+            GD.Print("Start button was already pressed. Continuing the game...");
+        }
+        else
+        {
+            EmitSignal(SignalName.StartGame);
+            isGameStarted = true; // Set the flag to indicate the start button has been pressed
+            startButton.Text = "Continue"; // Change the button text to "Continue"
+        }
+
         Hide();
     }
     #endregion Start Logic
@@ -142,19 +155,12 @@ public partial class MainMenu : Control
         */
         if (Input.IsKeyPressed(Key.Escape))
         {
-            if (this.Visible)
+            if (!this.Visible)
             {
-                GD.Print("Escape key pressed in the main menu. Attempting to exit the game.");
-
-                // If the Escape key is pressed, we can trigger the quit confirmation dialog
-                // GetNode<ConfirmationDialog>("%QuitConfirmationDialog").PopupCentered();
-            }
-            else
-            {
-                // Bring up the popup menu if trying to escape while the main menu is not visible
+                // Bring up the menu if trying to escape while the main menu is not visible
                 GD.Print("Escape key pressed while in game. Popping-up the main menu.");
                 this.Show();
-                startButton.GrabFocus(); // Set focus on the Start button when the menu is ready
+                startButton.GrabFocus(); // Set focus on the Start button when the menu is ready   
             }
         }
     }
