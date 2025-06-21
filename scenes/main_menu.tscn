@@ -1,10 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dup4geigacidd"]
+[gd_scene load_steps=4 format=3 uid="uid://dup4geigacidd"]
 
 [ext_resource type="Script" uid="uid://c0o45q3kqbdjx" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
 [ext_resource type="Theme" uid="uid://30mgaogf1xh8" path="res://themes/custom_theme.tres" id="2_ekxnf"]
 [ext_resource type="Theme" uid="uid://dphc28t8dl3xm" path="res://themes/vboxcontainer_theme.tres" id="3_bqqt6"]
-
-[sub_resource type="Theme" id="Theme_ekxnf"]
 
 [node name="MainMenu" type="CenterContainer"]
 anchors_preset = 15
@@ -45,13 +43,14 @@ unique_name_in_owner = true
 auto_translate_mode = 1
 title = "Settings"
 initial_position = 2
+size = Vector2i(200, 126)
 ok_button_text = "Apply"
 
 [node name="CheckButton" type="CheckButton" parent="PanelContainer/ButtonLayout/SettingsButton/SettingsDialog"]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 192.0
-offset_bottom = 51.0
+offset_bottom = 77.0
 button_pressed = true
 text = "Music"
 alignment = 1
@@ -70,15 +69,15 @@ text = "Quit"
 [node name="QuitConfirmationDialog" type="ConfirmationDialog" parent="PanelContainer/ButtonLayout/QuitButton"]
 unique_name_in_owner = true
 auto_translate_mode = 1
-title = "Quit Game"
+title = "QUIT GAME"
 initial_position = 2
-size = Vector2i(252, 100)
-theme = SubResource("Theme_ekxnf")
+size = Vector2i(343, 126)
 ok_button_text = "Confirm"
 dialog_text = "Are you sure?"
-dialog_autowrap = true
 
 [connection signal="pressed" from="PanelContainer/ButtonLayout/StartButton" to="." method="OnStartButtonPressed"]
 [connection signal="pressed" from="PanelContainer/ButtonLayout/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="confirmed" from="PanelContainer/ButtonLayout/SettingsButton/SettingsDialog" to="." method="OnSettingsConfirmationDialogConfirmed"]
 [connection signal="pressed" from="PanelContainer/ButtonLayout/CreditsButton" to="." method="OnCreditsButtonPressed"]
 [connection signal="pressed" from="PanelContainer/ButtonLayout/QuitButton" to="." method="OnQuitButtonPressed"]
+[connection signal="confirmed" from="PanelContainer/ButtonLayout/QuitButton/QuitConfirmationDialog" to="." method="OnQuitConfirmationDialogConfirmed"]

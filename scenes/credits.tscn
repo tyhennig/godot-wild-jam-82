@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://qtaqwwh06q48"]
+[gd_scene load_steps=4 format=3 uid="uid://qtaqwwh06q48"]
 
 [ext_resource type="Theme" uid="uid://30mgaogf1xh8" path="res://themes/custom_theme.tres" id="1_0bpdh"]
 [ext_resource type="Script" uid="uid://bi77eih2386hx" path="res://scripts/Credits.cs" id="1_2ckv8"]
-
-[sub_resource type="Theme" id="Theme_wu84c"]
 
 [sub_resource type="Theme" id="Theme_yeqti"]
 default_font_size = 20
@@ -14,7 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_wu84c")
+theme = ExtResource("1_0bpdh")
 script = ExtResource("1_2ckv8")
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
@@ -55,9 +53,10 @@ Credit 4: Person
 
 "
 
-[node name="BackButton" type="Button" parent="CreditsLayout"]
+[node name="CreditsBackButton" type="Button" parent="CreditsLayout"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Back"
 
-[connection signal="pressed" from="CreditsLayout/BackButton" to="." method="OnBackButtonPressed"]
+[connection signal="pressed" from="CreditsLayout/CreditsBackButton" to="." method="OnBackButtonPressed"]

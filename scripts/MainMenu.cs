@@ -7,9 +7,8 @@ public partial class MainMenu : Control
     [Signal]
     public delegate void StartGameEventHandler();
 
-    // Define packed scenes to transition to from the main menu
-    private PackedScene gameplayScene;
-    private PackedScene creditsScene;
+    // Scenes, but as nodes
+    private PanelContainer credits;
 
 
     // Define the buttons in the main menu
@@ -31,10 +30,6 @@ public partial class MainMenu : Control
 
         startButton.GrabFocus(); // Set focus on the Start button when the menu is ready
 
-        // Preloading scenes reduces delays during transitions
-        gameplayScene = GD.Load<PackedScene>("res://scenes/grid.tscn");
-        creditsScene = GD.Load<PackedScene>("res://scenes/credits.tscn");
-
         GD.Print("Main menu is ready.");
     }
 
@@ -48,7 +43,6 @@ public partial class MainMenu : Control
     private void OnStartButtonPressed()
     {
         GD.Print("Start button pressed. Loading game scene...");
-        // GetTree().ChangeSceneToPacked(gameplayScene);
         EmitSignal(SignalName.StartGame);
         Hide();
     }
@@ -62,11 +56,8 @@ public partial class MainMenu : Control
     /// </summary>
     private void OnSettingsButtonPressed()
     {
-        // Load the settings scene when the settings button is pressed
-        ConfirmationDialog settingsDialog = GetNode<ConfirmationDialog>("%SettingsDialog");
-
         GD.Print("Opening settings dialog...");
-        settingsDialog.Confirmed += OnSettingsConfirmationDialogConfirmed;
+        GetNode<ConfirmationDialog>("%SettingsDialog").PopupCentered();
     }
     private void OnSettingsConfirmationDialogConfirmed()
     {
@@ -86,7 +77,12 @@ public partial class MainMenu : Control
     private void OnCreditsButtonPressed()
     {
         GD.Print("Credits button pressed. Loading credits scene...");
-        GetTree().ChangeSceneToPacked(creditsScene);
+
+        credits = GetNode<PanelContainer>("%Credits");
+        credits.Visible = true; // Show the credits panel
+        
+        Button creditsBackButton = credits.GetNode<Button>("%CreditsBackButton");
+        creditsBackButton.GrabFocus(); // Set focus on the Back button in credits
     }
     #endregion Credits Logic
 
@@ -100,8 +96,7 @@ public partial class MainMenu : Control
     {
         GD.Print("Attempting to quit the game...");
 
-        var quitConfirmationDialog = GetNode<ConfirmationDialog>("%QuitConfirmationDialog");
-        quitConfirmationDialog.Confirmed += OnQuitConfirmationDialogConfirmed;
+        GetNode<ConfirmationDialog>("%QuitConfirmationDialog").PopupCentered();
     }
     
     /// <summary>
@@ -140,62 +135,27 @@ public partial class MainMenu : Control
             // GD.Print("Mouse is outside the main menu area.");
         }
 
-        // Check if the mouse is hovering over the Start button
-        //      Change the button color, text color, and button size when hovered
-        if (startButton.GetRect().HasPoint(mousePosition))
-        {
-            // GD.Print("Mouse is hovering over the Start button.");
-        }
-        else
-        {
-            // GD.Print("Mouse is not hovering over the Start button.");
-        }
 
-
-        if (settingsButton.GetRect().HasPoint(mousePosition))
-        {
-            // GD.Print("Mouse is hovering over the Settings button.");
-        }
-        else
-        {
-            // GD.Print("Mouse is not hovering over the Settings button.");
-        }
-
-        if (creditsButton.GetRect().HasPoint(mousePosition))
-        {
-            // GD.Print("Mouse is hovering over the Credits button.");
-        }
-        else
-        {
-            // GD.Print("Mouse is not hovering over the Credits button.");
-        }
-
-
-
-
-        // Example: Check if the mouse is hovering over the Quit button
-        if (quitButton.GetRect().HasPoint(mousePosition))
-        {
-            // GD.Print("Mouse is hovering over the Quit button.");
-        }
-        else
-        {
-            // GD.Print("Mouse is not hovering over the Quit button.");
-        }
-
-
-        // Example: Check if a specific key is pressed
+        /*
+        * Check if the Escape key is pressed while the main menu is visible - Will assume quitting the game
+        *   - This is useful for allowing players to exit the game quickly from the main menu
+        */
         if (Input.IsKeyPressed(Key.Escape))
         {
-            GD.Print("Escape key pressed in the main menu. Exiting game.");
+            if (this.Visible)
+            {
+                GD.Print("Escape key pressed in the main menu. Attempting to exit the game.");
 
-            // Confirm the exit action
-            // GetNode<ConfirmationDialog>("ConfirmationDialog").PopupCentered();
-            // GetNode<ConfirmationDialog>("ConfirmationDialog").Text = "Are you sure you want to quit the game?";
-            // GetNode<ConfirmationDialog>("ConfirmationDialog").Confirmed += OnQuitConfirmationDialogConfirmed;
-            // GetNode<ConfirmationDialog>("ConfirmationDialog").Cancelled += OnQuitConfirmationDialogCancelled;
-
-            GetTree().Quit(); // Exit the game when the Escape key is pressed
+                // If the Escape key is pressed, we can trigger the quit confirmation dialog
+                // GetNode<ConfirmationDialog>("%QuitConfirmationDialog").PopupCentered();
+            }
+            else
+            {
+                // Bring up the popup menu if trying to escape while the main menu is not visible
+                GD.Print("Escape key pressed while in game. Popping-up the main menu.");
+                this.Show();
+                startButton.GrabFocus(); // Set focus on the Start button when the menu is ready
+            }
         }
     }
 }
