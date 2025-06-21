@@ -140,7 +140,6 @@ public partial class GameManager : Node
 	private void OnScanPressed()
 	{
 		GD.Print("Scan Pressed");
-
 		CurrentState = States.Scanning;
 	}
 
@@ -155,10 +154,13 @@ public partial class GameManager : Node
 			{
 				ship.QueueFree();
 			}
-			
+
 			CurrentState = States.Nothing;
+			
 			// Do game over logic
-			GetNode<MainMenu>("/root/Main/UI/MainMenu").Show();
+			MainMenu mainMenu = GetNode<MainMenu>("/root/Main/UI/MainMenu");
+			mainMenu.GetNode<Button>("StartButton").Text = "Start Game";
+			mainMenu.Show();
 		}
 	}
 }
