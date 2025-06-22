@@ -3,6 +3,8 @@ using System;
 using Rect2 = Godot.Rect2;
 using System.Runtime.ConstrainedExecution;
 using System.Collections.Generic;
+using Godot.Collections;
+using System.Threading.Tasks;
 
 public partial class Grid : Node2D
 {
@@ -13,6 +15,7 @@ public partial class Grid : Node2D
 	private PackedScene _defaultCursorShape;
 
 	private List<Node> _hitIcons = new List<Node>();
+	private Godot.Collections.Dictionary<Vector2I, Label> _scanIcons = new();
 	private Sprite2D _gridSprite;
 	private Area2D _area2D;
 	private Vector2 _spriteSize;
@@ -36,6 +39,7 @@ public partial class Grid : Node2D
 	public override void _Ready()
 	{
 		SignalBus.Instance.ShipHit += OnShipHit;
+		SignalBus.Instance.GridCellsSelected += OnGridCellsSelectedAsync;
 		GameManager.Instance.NewRound += OnNewRound;
 
 		_gridSprite = GetNode<Sprite2D>("GridSprite");
@@ -53,7 +57,37 @@ public partial class Grid : Node2D
 		}
 	}
 
-	private void OnMouseExitedGrid()
+	// Method for displaying the scanned count in the grid
+	private async void OnGridCellsSelectedAsync(Array<Vector2I> cells)
+	{
+		if (GameManager.Instance.CurrentState is not GameManager.States.Scanning)
+			return;
+
+		// Wait for all the ships to be removed
+		await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+
+		foreach(var cell in cells)
+		{
+			Label scanIcon;
+			if (_scanIcons.ContainsKey(cell))
+			{
+				scanIcon = _scanIcons[cell];
+			}
+			else
+			{
+				scanIcon = new();
+				_scanIcons.Add(cell, scanIcon);
+				AddChild(scanIcon);
+			}
+
+			scanIcon.Text = GameManager.Instance.ShipsDetected.ToString();
+			scanIcon.Position = GridVecToLocalVec(cell) - (_cellSize / 2);
+
+			
+		}
+	}
+
+    private void OnMouseExitedGrid()
 	{
 		GD.Print("Removing Cursor");
     }
@@ -82,13 +116,12 @@ public partial class Grid : Node2D
 	}
 
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
 
-    public override void _Process(double delta)
+	public override void _Process(double delta)
 	{
+		
 	}
-
-	
 
 	private Vector2I GetGridCell(Vector2 mousePosition)
 	{
@@ -100,18 +133,17 @@ public partial class Grid : Node2D
 		return (Vector2I)(adjustedPos / _cellSize);
 	}
 
-	private Vector2I _gridVecToLocalVec(Vector2I cell)
+	public Vector2I GridVecToLocalVec(Vector2I cell)
 	{
 		Vector2 localVec = (cell * _cellSize) - (_spriteSize / 2);
-		return (Vector2I)localVec;
+		return (Vector2I)((Vector2I)localVec + (_cellSize / 2));
     }
-
 
 	private void OnShipHit(Vector2I cell)
 	{
 		var hitIconScene = GD.Load<PackedScene>("res://scenes/fire.tscn");
 		Node2D hitIcon = hitIconScene.Instantiate() as Node2D;
-		hitIcon.Position = _gridVecToLocalVec(cell) + (_cellSize / 2);
+		hitIcon.Position = GridVecToLocalVec(cell);
 
 		AddChild(hitIcon);
 		this._hitIcons.Add(hitIcon);
@@ -125,6 +157,12 @@ public partial class Grid : Node2D
 			item.QueueFree();
 		}
 
+		foreach (var item in _scanIcons.Values)
+		{
+			item.QueueFree();
+		}
+
 		_hitIcons.Clear();
+		_scanIcons.Clear();
     }
 }

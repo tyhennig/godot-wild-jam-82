@@ -19,10 +19,19 @@ public partial class EnemyShipManager : Node
 	public override void _Ready()
 	{
 		GameManager.Instance.NewRound += PlaceEnemyShips;
+		GameManager.Instance.GameOver += OnGameOver;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    private void OnGameOver()
+    {
+		foreach (var ship in GetTree().GetNodesInGroup("enemy_ships"))
+		{
+			ship.QueueFree();
+		}
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
 
@@ -37,7 +46,7 @@ public partial class EnemyShipManager : Node
 			List<Vector2I> ShipSpots = RandomLocationPicker();
 			
 			EnemyShip instance = enemyScene.Instantiate() as EnemyShip;
-			instance.ShipDestroyed += OnShipDestroyed;
+			instance.TreeExited += OnShipDestroyed;
 
 			instance.GridLocations = [ShipSpots[0], ShipSpots[1], ShipSpots[2]];
 			GD.Print("Placing Enemy Ship at: ", ShipSpots[0], ShipSpots[1], ShipSpots[2]);
@@ -137,13 +146,13 @@ public partial class EnemyShipManager : Node
 		return GameManager.Instance.RoundNumber;
 	}
 
-	public void OnShipDestroyed(EnemyShip ship)
+	public void OnShipDestroyed()
 	{
 		int remainingShips = GetTree().GetNodeCountInGroup("enemy_ships");
 
-		ship.QueueFree();
+		GD.Print("OnShipDestroyed. Remaining: ", remainingShips);
 		// If this is the last ship to be destroyed, send signal
-		if (remainingShips <= 1)
+		if (remainingShips <= 0)
 		{
 			EmitSignal(SignalName.AllShipsDestroyed);
 			ShipsCount += ShipsAddedPerRound; // Increment the number of ships for the next round
