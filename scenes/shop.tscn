@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ceem5b2uwqmca"]
 
 [ext_resource type="Script" uid="uid://ffx672iqk7rl" path="res://scripts/Shop.cs" id="1_lx5au"]
-[ext_resource type="Theme" uid="uid://b3gixfr8xnl7k" path="res://assets/gridwreck_theme.tres" id="2_xfvoa"]
+[ext_resource type="Theme" uid="uid://kwku5yrv5krr" path="res://assets/gridwreck_theme.tres" id="2_xfvoa"]
 
 [node name="Shop" type="CanvasLayer"]
 script = ExtResource("1_lx5au")
