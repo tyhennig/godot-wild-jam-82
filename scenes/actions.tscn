@@ -1,33 +1,35 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhpbm76kumygh"]
+[gd_scene load_steps=8 format=3 uid="uid://dhpbm76kumygh"]
 
 [ext_resource type="Script" uid="uid://rav3rgswr17m" path="res://scripts/Actions.cs" id="1_he050"]
 [ext_resource type="Script" uid="uid://62h3brv1kuhw" path="res://scripts/audio_button.gd" id="2_doyms"]
+[ext_resource type="Theme" uid="uid://b8luim2aesdbe" path="res://themes/action_button_theme.tres" id="2_jiyq0"]
+[ext_resource type="ButtonGroup" uid="uid://w3cqcuj68a5q" path="res://resources/action_button_group.tres" id="2_una8d"]
 [ext_resource type="AudioStream" uid="uid://citx0112h04q6" path="res://assets/sfx/bong_001.ogg" id="3_doyms"]
 [ext_resource type="AudioStream" uid="uid://d0ilt31dnat0u" path="res://assets/sfx/switch_006.ogg" id="4_dk76a"]
 [ext_resource type="AudioStream" uid="uid://2mgtejdqlkrt" path="res://assets/sfx/switch_007.ogg" id="5_dk76a"]
 
 [node name="Actions" type="Control" node_paths=PackedStringArray("_fireButton", "_scanButton")]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
 script = ExtResource("1_he050")
 _fireButton = NodePath("HBox/FireButton")
 _scanButton = NodePath("HBox/ScanButton")
+metadata/_edit_use_anchors_ = true
 
 [node name="HBox" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.226
-anchor_bottom = 0.103
-offset_right = 3.35999
-offset_bottom = -0.0800018
+layout_mode = 0
+offset_right = 112.0
+offset_bottom = 29.0
+theme_override_constants/separation = 5
 
 [node name="FireButton" type="Button" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("2_jiyq0")
+toggle_mode = true
+button_group = ExtResource("2_una8d")
 text = "Fire!"
 script = ExtResource("2_doyms")
 hoverAudio = ExtResource("3_doyms")
@@ -37,6 +39,9 @@ metadata/_custom_type_script = "uid://62h3brv1kuhw"
 [node name="ScanButton" type="Button" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("2_jiyq0")
+toggle_mode = true
+button_group = ExtResource("2_una8d")
 text = "Scan!"
 script = ExtResource("2_doyms")
 hoverAudio = ExtResource("3_doyms")

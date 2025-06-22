@@ -125,7 +125,8 @@ public partial class GameManager : Node
 
 	private void OnGridClicked(Array<Vector2I> cells)
 	{
-		GD.Print("Energy: ", CurrentEnergy);
+		GD.Print("Bullets: ", CurrentEnergy);
+		GD.Print("Scans: ", CurrentScans);
 		switch (CurrentState)
 		{
 			case States.Firing:
@@ -142,10 +143,14 @@ public partial class GameManager : Node
 				EmitSignal(SignalName.FiredOnGrid, cells);
 				break;
 			case States.Scanning:
-				GD.Print("Scanning on ", cells);
+				
 				ShipsDetected = 0;
-				if (CurrentScans >= 1) CurrentScans--;
-				EmitSignal(SignalName.ScannedGrid, cells);
+				if (CurrentScans >= 1)
+				{
+					GD.Print("Scanning on ", cells);
+					CurrentScans--;
+					EmitSignal(SignalName.ScannedGrid, cells);
+				}
 				break;
 			case States.Nothing:
 				break;

@@ -39,7 +39,7 @@ public partial class Grid : Node2D
 	public override void _Ready()
 	{
 		SignalBus.Instance.ShipHit += OnShipHit;
-		SignalBus.Instance.GridCellsSelected += OnGridCellsSelectedAsync;
+		GameManager.Instance.ScannedGrid += OnGridCellsSelectedAsync;
 		GameManager.Instance.NewRound += OnNewRound;
 
 		_gridSprite = GetNode<Sprite2D>("GridSprite");
@@ -60,6 +60,7 @@ public partial class Grid : Node2D
 	// Method for displaying the scanned count in the grid
 	private async void OnGridCellsSelectedAsync(Array<Vector2I> cells)
 	{
+
 		if (GameManager.Instance.CurrentState is not GameManager.States.Scanning)
 			return;
 
@@ -82,8 +83,6 @@ public partial class Grid : Node2D
 
 			scanIcon.Text = GameManager.Instance.ShipsDetected.ToString();
 			scanIcon.Position = GridVecToLocalVec(cell) - (_cellSize / 2);
-
-			
 		}
 	}
 

@@ -34,11 +34,15 @@ theme = ExtResource("1_tipki")
 [node name="Actions" parent="UI" instance=ExtResource("2_0wfyh")]
 unique_name_in_owner = true
 layout_mode = 1
-offset_left = 40.0
-offset_top = 299.0
-offset_right = 40.0
-offset_bottom = 299.0
-scale = Vector2(0.940734, 1)
+anchors_preset = -1
+anchor_left = -0.475
+anchor_top = -0.4
+anchor_right = -0.475
+anchor_bottom = -0.4
+offset_left = 62.0
+offset_top = 304.0
+offset_right = 62.0
+offset_bottom = 304.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -70,13 +74,13 @@ unique_name_in_owner = true
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 55.0
+offset_left = 48.0
 offset_top = 32.0
-offset_right = 55.0
+offset_right = 48.0
 offset_bottom = 32.0
 grow_horizontal = 1
 grow_vertical = 1
-scale = Vector2(1.26959, 1.12133)
+scale = Vector2(0.97, 0.97)
 
 [node name="StateLabel" type="Label" parent="UI"]
 unique_name_in_owner = true
