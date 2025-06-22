@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhpbm76kumygh"]
+[gd_scene load_steps=6 format=3 uid="uid://dhpbm76kumygh"]
 
 [ext_resource type="Script" uid="uid://rav3rgswr17m" path="res://scripts/Actions.cs" id="1_he050"]
+[ext_resource type="Script" uid="uid://62h3brv1kuhw" path="res://scripts/audio_button.gd" id="2_doyms"]
+[ext_resource type="AudioStream" uid="uid://citx0112h04q6" path="res://assets/sfx/bong_001.ogg" id="3_doyms"]
+[ext_resource type="AudioStream" uid="uid://d0ilt31dnat0u" path="res://assets/sfx/switch_006.ogg" id="4_dk76a"]
+[ext_resource type="AudioStream" uid="uid://2mgtejdqlkrt" path="res://assets/sfx/switch_007.ogg" id="5_dk76a"]
 
 [node name="Actions" type="Control" node_paths=PackedStringArray("_fireButton", "_scanButton")]
 layout_mode = 3
@@ -25,8 +29,16 @@ offset_bottom = -0.0800018
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Fire!"
+script = ExtResource("2_doyms")
+hoverAudio = ExtResource("3_doyms")
+clickAudio = ExtResource("4_dk76a")
+metadata/_custom_type_script = "uid://62h3brv1kuhw"
 
 [node name="ScanButton" type="Button" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Scan!"
+script = ExtResource("2_doyms")
+hoverAudio = ExtResource("3_doyms")
+clickAudio = ExtResource("5_dk76a")
+metadata/_custom_type_script = "uid://62h3brv1kuhw"
