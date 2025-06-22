@@ -4,7 +4,6 @@ using System;
 public partial class Shop : CanvasLayer
 {
 	public String test { get; set; }
-	public String currency { get; set; }
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -16,7 +15,7 @@ public partial class Shop : CanvasLayer
 		shopLabel.Text = test != null ? test : "It failed";
 		
 		var currencyLabel = GetNode<Label>("CurrencyLabel");
-		currencyLabel.Text = test != null ? currency : "It failed";
+		currencyLabel.Text = "$ " + GameManager.Instance.Currency;
 	}
 
     private void ExitShop()

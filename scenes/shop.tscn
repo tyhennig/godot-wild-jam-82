@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://ceem5b2uwqmca"]
+[gd_scene load_steps=6 format=3 uid="uid://ceem5b2uwqmca"]
 
 [ext_resource type="Script" uid="uid://ffx672iqk7rl" path="res://scripts/Shop.cs" id="1_lx5au"]
 [ext_resource type="Theme" uid="uid://kwku5yrv5krr" path="res://assets/gridwreck_theme.tres" id="2_xfvoa"]
+[ext_resource type="Theme" uid="uid://30mgaogf1xh8" path="res://themes/custom_theme.tres" id="3_2fc2m"]
+[ext_resource type="FontFile" uid="uid://cwdyq0uehbi1" path="res://assets/Silkscreen-Regular.ttf" id="4_8r1wq"]
+[ext_resource type="Script" uid="uid://csprlthyb078r" path="res://scripts/Purchase.cs" id="5_ajxib"]
 
 [node name="Shop" type="CanvasLayer"]
 script = ExtResource("1_lx5au")
@@ -35,11 +38,16 @@ offset_left = 192.0
 offset_top = 64.0
 offset_right = 448.0
 offset_bottom = 280.0
+theme = ExtResource("3_2fc2m")
+theme_override_fonts/font = ExtResource("4_8r1wq")
+allow_search = false
+wraparound_items = false
 item_count = 4
-item_0/text = "1$ - Increase Bullets"
+item_0/text = "$1 - Increase Bullets"
 item_1/text = "$1 - Increase Scans"
 item_2/text = "$1 - Upgrade Cursor Shape"
 item_3/text = "$1 - Upgrade Cursor Size"
+script = ExtResource("5_ajxib")
 
 [node name="CurrencyLabel" type="Label" parent="."]
 offset_left = 408.0

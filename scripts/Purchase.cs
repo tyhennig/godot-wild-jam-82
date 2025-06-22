@@ -18,20 +18,35 @@ public partial class Purchase : ItemList
 			case 0:
 				// Handle first item selection
 				GD.Print($"Selected item at index {index}");
+				// Increase Bullets
+				OnPurchasePressed();
 				break;
 			case 1:
 				// Handle second item selection
 				GD.Print($"Selected item at index {index}");
+				// Increase Scans
+				OnPurchasePressed();
 				break;
 			case 2:
-				// Handle second item selection
+				// Upgrade Cursor Shape
 				GD.Print($"Selected item at index {index}");
+				OnPurchasePressed();
 				break;
 			case 3:
-				// Handle second item selection
+				// Upgrade Cursor Size
 				GD.Print($"Selected item at index {index}");
+				OnPurchasePressed();
 				break;
 			// Add more cases as needed
+		}
+	}
+
+	private void OnPurchasePressed()
+	{
+		if (GameManager.Instance.Currency > 0)
+		{
+			GameManager.Instance.Currency--;
+			
 		}
 	}
 

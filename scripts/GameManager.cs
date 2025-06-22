@@ -17,7 +17,7 @@ public partial class GameManager : Node
 
 	public static GameManager Instance { get; private set; }
 	public int RoundNumber { get; private set; }
-	public int Currency { get; private set; }
+	public int Currency { get; set; }
 	public int StartingScans { get; private set; }
 	public int StartingEnergy { get; private set; }
 	public int CurrentScans { get; private set; } = 5;
@@ -71,8 +71,8 @@ public partial class GameManager : Node
     {
 		ActiveCursorShape = GD.Load<PackedScene>("res://scenes/cursor_shapes/cursor_shape_1x1.tscn");
     }
-
-
+	
+    
     private void ActivateThree()
     {
 		ActiveCursorShape = GD.Load<PackedScene>("res://scenes/cursor_shapes/cursor_shape_3x1.tscn");
@@ -163,7 +163,6 @@ public partial class GameManager : Node
 		shop.test = "Shop";
 		// Increase the total points at the end of the round
 		Currency += 1;
-		shop.currency = "$ " + Currency;
 		
 		shop.TreeExited += _initializeNewRound;
 
