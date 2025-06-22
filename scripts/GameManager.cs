@@ -11,7 +11,8 @@ public partial class GameManager : Node
 	public delegate void FiredOnGridEventHandler(Array<Vector2I> cells);
 	[Signal]
 	public delegate void ScannedGridEventHandler(Array<Vector2I> cells);
-
+	[Signal]
+	public delegate void GameOverEventHandler();
 
 
 	public static GameManager Instance { get; private set; }
@@ -21,6 +22,7 @@ public partial class GameManager : Node
 	public int StartingEnergy { get; private set; }
 	public int CurrentScans { get; private set; } = 5;
 	public int CurrentEnergy { get; private set; } = 5;
+	public int ShipsDetected { get; set; }
 	public PackedScene ActiveCursorShape { get; set; }
 	
 	public States CurrentState { get; private set; } = States.Nothing;
@@ -43,6 +45,7 @@ public partial class GameManager : Node
 		actionNode.ScanPressed += OnScanPressed;
 
 		SignalBus.Instance.GridCellsSelected += OnGridClicked;
+		SignalBus.Instance.ShipScanned += OnShipScanned;
 
 		var mainMenuNode = GetNode<MainMenu>("/root/Main/UI/MainMenu");
 		mainMenuNode.StartGame += OnStartGame;
@@ -55,6 +58,8 @@ public partial class GameManager : Node
 		GetNode<Button>("/root/Main/UI/ThreeThreeCursor").Pressed += ActivateThreeThreef;
 
 	}
+
+
 
     private void ActivateThreeThreef()
     {
@@ -84,6 +89,7 @@ public partial class GameManager : Node
 
 	}
 
+   
 	private void OnStartGame()
 	{
 		_initializeNewGameData();
@@ -102,12 +108,20 @@ public partial class GameManager : Node
 	private void _initializeNewRound()
 	{
 		GD.Print("Initializing New Round!");
+		ShipsDetected = 0;
 		RoundNumber++;
+		StartingEnergy++;
+		StartingScans++;
 		CurrentScans = StartingScans;
 		CurrentEnergy = StartingEnergy;
 		CurrentState = States.Nothing;
 		EmitSignal(SignalName.NewRound, RoundNumber);
 	}
+
+ 	private void OnShipScanned(Vector2I cell)
+    {
+		ShipsDetected++;
+    }
 
 	private void OnGridClicked(Array<Vector2I> cells)
 	{
@@ -124,11 +138,12 @@ public partial class GameManager : Node
 				{
 					CallDeferred("CheckGameOver");
 				}
-				
+
 				EmitSignal(SignalName.FiredOnGrid, cells);
 				break;
 			case States.Scanning:
 				GD.Print("Scanning on ", cells);
+				ShipsDetected = 0;
 				if (CurrentScans >= 1) CurrentScans--;
 				EmitSignal(SignalName.ScannedGrid, cells);
 				break;
@@ -140,6 +155,7 @@ public partial class GameManager : Node
 	private async void OnRoundEnd()
 	{
 		// WHEN ROUND IS SUCCESSFUL
+		GD.Print("OnRoundEnd!");
 		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 
 		var shopScene = GD.Load<PackedScene>("res://scenes/shop.tscn");
@@ -166,21 +182,24 @@ public partial class GameManager : Node
 	private async void CheckGameOver()
 	{
 		// THIS IS SO JANKY
-		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
 		GD.Print("Checking Game over, ships left: ", GetTree().GetNodeCountInGroup("enemy_ships"));
 		if (GetTree().GetNodeCountInGroup("enemy_ships") > 0)
 		{
-			foreach (var ship in GetTree().GetNodesInGroup("enemy_ships"))
-			{
-				ship.QueueFree();
-			}
-
 			CurrentState = States.Nothing;
-			
+
+			// Load and Display the Game over screen, wait 1s and then go to the menu via GameOver Signal
+			var gameOverScene = GD.Load<PackedScene>("res://scenes/game_over.tscn");
+			Node gameOverNode = gameOverScene.Instantiate();
+
+			AddChild(gameOverNode);
+
+			await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
+
+			gameOverNode.QueueFree();
+
 			// Do game over logic
-			MainMenu mainMenu = GetNode<MainMenu>("/root/Main/UI/MainMenu");
-			mainMenu.GetNode<Button>("StartButton").Text = "Start Game";
-			mainMenu.Show();
+			EmitSignal(SignalName.GameOver);
 		}
 	}
 }

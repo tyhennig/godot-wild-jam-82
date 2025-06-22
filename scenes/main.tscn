@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dmkmllt32a5bj"]
+[gd_scene load_steps=11 format=3 uid="uid://dmkmllt32a5bj"]
 
 [ext_resource type="PackedScene" uid="uid://c2doverurw5gf" path="res://scenes/grid.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://p5y4m0bma605" path="res://scenes/resources.tscn" id="1_tbgi4"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bh4aq5ipgkyhh" path="res://scripts/EnemyShipManager.cs" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://csbiyo7sqxvjb" path="res://scenes/round_label.tscn" id="5_tipki"]
 [ext_resource type="PackedScene" uid="uid://dup4geigacidd" path="res://scenes/main_menu.tscn" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://b6n4ebt1ekb2y" path="res://scripts/ScanResult.cs" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://dd2ueepw7ckuh" path="res://scenes/cursor_shapes/cursor_shape_1x1.tscn" id="10_choun"]
 
 [node name="Main" type="Node"]
@@ -104,6 +105,16 @@ offset_top = 117.0
 offset_right = 622.0
 offset_bottom = 146.0
 text = "1x1 Cursor"
+
+[node name="ScanResult" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 180.0
+offset_right = 130.0
+offset_bottom = 264.0
+text = "Ships Detected:"
+autowrap_mode = 3
+script = ExtResource("7_choun")
 
 [node name="World" type="Node2D" parent="."]
 

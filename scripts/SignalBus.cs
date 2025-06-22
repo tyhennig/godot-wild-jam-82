@@ -8,6 +8,9 @@ public partial class SignalBus : Node
 	public delegate void ShipHitEventHandler(Vector2I cell);
 
 	[Signal]
+	public delegate void ShipScannedEventHandler(Vector2I cell);
+	
+	[Signal]
 	public delegate void GridCellsSelectedEventHandler(Array<Vector2I> cells);
 
 	public static SignalBus Instance { get; private set; }

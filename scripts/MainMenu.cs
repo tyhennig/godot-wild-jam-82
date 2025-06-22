@@ -12,7 +12,7 @@ public partial class MainMenu : Control
 
 
     // Define the buttons in the main menu
-    private Button startButton;
+    public Button startButton { get; private set; }
     private bool isGameStarted = false; // Track if the start button has been pressed
     private Button settingsButton;
     private Button creditsButton;
@@ -30,6 +30,9 @@ public partial class MainMenu : Control
         quitButton = GetNode<Button>("%QuitButton");
 
         startButton.GrabFocus(); // Set focus on the Start button when the menu is ready
+
+        // Register to game over signal
+        GameManager.Instance.GameOver += OnGameOver;
 
         GD.Print("Main menu is ready.");
     }
@@ -58,6 +61,13 @@ public partial class MainMenu : Control
         }
 
         Hide();
+    }
+
+    public void OnGameOver()
+    {
+        startButton.Text = "Start Game";
+        isGameStarted = false;
+        Show();
     }
     #endregion Start Logic
 
