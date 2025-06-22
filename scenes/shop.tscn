@@ -22,10 +22,28 @@ offset_bottom = 335.0
 theme = ExtResource("2_xfvoa")
 text = "Next Round"
 
-[node name="TestLabel" type="Label" parent="."]
-offset_left = 300.0
-offset_top = 59.0
-offset_right = 362.0
-offset_bottom = 82.0
+[node name="ShopLabel" type="Label" parent="."]
+offset_left = 288.0
+offset_top = 24.0
+offset_right = 350.0
+offset_bottom = 47.0
 theme = ExtResource("2_xfvoa")
-text = "Editor"
+text = "Shop"
+
+[node name="ItemList" type="ItemList" parent="."]
+offset_left = 192.0
+offset_top = 64.0
+offset_right = 448.0
+offset_bottom = 280.0
+item_count = 4
+item_0/text = "1$ - Increase Bullets"
+item_1/text = "$1 - Increase Scans"
+item_2/text = "$1 - Upgrade Cursor Shape"
+item_3/text = "$1 - Upgrade Cursor Size"
+
+[node name="CurrencyLabel" type="Label" parent="."]
+offset_left = 408.0
+offset_top = 240.0
+offset_right = 448.0
+offset_bottom = 272.0
+text = "$0"
