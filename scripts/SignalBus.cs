@@ -13,6 +13,19 @@ public partial class SignalBus : Node
 	[Signal]
 	public delegate void GridCellsSelectedEventHandler(Array<Vector2I> cells);
 
+	[Signal]
+	public delegate void FireShapeSelectedEventHandler(PackedScene shape);
+
+	[Signal]
+	public delegate void ScanShapeSelectedEventHandler(PackedScene shape);
+
+	[Signal]
+	public delegate void FireCursorPurchasedEventHandler(GridWreck.CursorShape cursorShape);
+	
+	[Signal]
+	public delegate void ScanCursorPurchasedEventHandler(GridWreck.CursorShape cursorShape);
+	
+
 	public static SignalBus Instance { get; private set; }
 
 	// Called when the node enters the scene tree for the first time.

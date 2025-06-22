@@ -1,4 +1,5 @@
 using Godot;
+using GridWreck;
 using System;
 using Rect2 = Godot.Rect2;
 using System.Runtime.ConstrainedExecution;
@@ -12,14 +13,17 @@ public partial class Grid : Node2D
 	public delegate void GridClickedEventHandler(Vector2I cell);
 
 	[Export]
-	private PackedScene _defaultCursorShape;
+	private PackedScene _defaultFireShape;
 
+	[Export]
+	private PackedScene _defaultScanShape;
 	private List<Node> _hitIcons = new List<Node>();
 	private Godot.Collections.Dictionary<Vector2I, Label> _scanIcons = new();
 	private Sprite2D _gridSprite;
-	private Area2D _area2D;
+	// private Area2D _area2D;
 	private Vector2 _spriteSize;
 	private Vector2 _cellSize;
+	private bool _mouseOverGrid;
 
 
 	private readonly int GridWidth = 10;
@@ -47,11 +51,11 @@ public partial class Grid : Node2D
 		_spriteSize = _gridSprite.Texture.GetSize() * _gridSprite.Scale;
 		_cellSize = new Vector2(_spriteSize.X / GridWidth, _spriteSize.Y / GridHeight);
 
-		_area2D = GetNode<Area2D>("GridArea");
-		_area2D.MouseEntered += OnMouseEnteredGrid;
-		_area2D.MouseExited += OnMouseExitedGrid;
+		// _area2D = GetNode<Area2D>("GridArea");
+		// _area2D.MouseEntered += OnMouseEnteredGrid;
+		// _area2D.MouseExited += OnMouseExitedGrid;
 
-		if (_defaultCursorShape == null)
+		if (_defaultFireShape == null || _defaultScanShape == null)
 		{
 			GD.PushError("Must Define Default Cursor Shape");
 		}
@@ -86,20 +90,28 @@ public partial class Grid : Node2D
 		}
 	}
 
-    private void OnMouseExitedGrid()
+	private void OnMouseExitedGrid()
 	{
 		GD.Print("Removing Cursor");
+		GetNodeOrNull("Cursor")?.QueueFree();
     }
 
 
 	private void OnMouseEnteredGrid()
 	{
+		GameManager.States currentState = GameManager.Instance.CurrentState;
+		GD.Print("Mouse entered grid, current state: ", currentState);
+		if (currentState is not (GameManager.States.Firing or GameManager.States.Scanning))
+			return;
+			
 		// Create the Cursor
-		PackedScene shapeScene = GameManager.Instance.ActiveCursorShape;
+		PackedScene shapeScene = currentState is GameManager.States.Firing
+			? GameManager.Instance.ActiveFireShape : GameManager.Instance.ActiveScanShape;
 		CursorShape cursorShape;
 		if (shapeScene == null)
 		{
-			cursorShape = _defaultCursorShape.Instantiate() as CursorShape;
+			cursorShape = currentState is GameManager.States.Firing
+				? _defaultFireShape.Instantiate() as CursorShape : _defaultScanShape.Instantiate() as CursorShape;
 		}
 		else
 		{
@@ -109,8 +121,6 @@ public partial class Grid : Node2D
 		Cursor cursor = GD.Load<PackedScene>("res://scenes/cursor.tscn").Instantiate() as Cursor;
 		cursor.CursorShape = cursorShape;
 
-		_area2D.MouseExited += cursor.OnMouseExited;
-
 		AddChild(cursor);
 	}
 
@@ -119,7 +129,38 @@ public partial class Grid : Node2D
 
 	public override void _Process(double delta)
 	{
-		
+		if (_isMouseOverGrid())
+		{
+
+			if (_mouseOverGrid)
+			{
+				// The mouse is grid and it was previously
+				return;
+			}
+			else
+			{
+				// Mouse is on grid and it was not previously
+				_mouseOverGrid = true;
+				OnMouseEnteredGrid();
+			}
+		}
+		else
+		{
+			// Mouse is not and grid, but it was previously
+			if (_mouseOverGrid)
+			{
+				_mouseOverGrid = false;
+				OnMouseExitedGrid();
+			}
+			_mouseOverGrid = false;
+		}
+	}
+
+	private bool _isMouseOverGrid()
+	{
+		var mousePos = GetGlobalMousePosition();
+		var rect = new Rect2(_gridSprite.GlobalPosition - (_spriteSize / 2), _spriteSize);
+		return rect.HasPoint(mousePos);
 	}
 
 	private Vector2I GetGridCell(Vector2 mousePosition)

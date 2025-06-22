@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbf3dox47kgh0"]
+
+[ext_resource type="Theme" uid="uid://b8luim2aesdbe" path="res://themes/action_button_theme.tres" id="1_3fgsj"]
+[ext_resource type="Script" uid="uid://db7fpd14q88hy" path="res://scripts/ScanPanel.cs" id="1_2762q"]
+[ext_resource type="Script" uid="uid://62h3brv1kuhw" path="res://scripts/audio_button.gd" id="2_2762q"]
+[ext_resource type="AudioStream" uid="uid://citx0112h04q6" path="res://assets/sfx/bong_001.ogg" id="3_c2vu1"]
+[ext_resource type="AudioStream" uid="uid://2mgtejdqlkrt" path="res://assets/sfx/switch_007.ogg" id="4_5y0aq"]
+[ext_resource type="ButtonGroup" uid="uid://w3cqcuj68a5q" path="res://resources/action_button_group.tres" id="6_0eaq4"]
+
+[node name="ScanPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2762q")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 232)
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_reselect = true
+auto_height = true
+fixed_icon_size = Vector2i(20, 20)
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(112, 45)
+layout_mode = 2
+
+[node name="ScanButton" type="Button" parent="VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_3fgsj")
+toggle_mode = true
+button_group = ExtResource("6_0eaq4")
+text = "SCAN"
+script = ExtResource("2_2762q")
+hoverAudio = ExtResource("3_c2vu1")
+clickAudio = ExtResource("4_5y0aq")
+metadata/_custom_type_script = "uid://62h3brv1kuhw"

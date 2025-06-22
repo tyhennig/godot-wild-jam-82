@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Purchase : ItemList
+public partial class ResourceList : ItemList
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -12,41 +12,32 @@ public partial class Purchase : ItemList
 
 	private void OnItemSelected(long index)
 	{
+		if (GameManager.Instance.Currency < 1)
+			return;
+		GD.Print("Item selected. Index: ", index);
 		// Handle different upgrades based on index
 		switch (index)
 		{
 			case 0:
 				// Handle first item selection
-				GD.Print($"Selected item at index {index}");
 				// Increase Bullets
-				OnPurchasePressed();
+				GameManager.Instance.StartingBullets++;
+				_onPurchasePressed();
 				break;
 			case 1:
 				// Handle second item selection
-				GD.Print($"Selected item at index {index}");
 				// Increase Scans
-				OnPurchasePressed();
+				GameManager.Instance.StartingScans++;
+				_onPurchasePressed();
 				break;
-			case 2:
-				// Upgrade Cursor Shape
-				GD.Print($"Selected item at index {index}");
-				OnPurchasePressed();
-				break;
-			case 3:
-				// Upgrade Cursor Size
-				GD.Print($"Selected item at index {index}");
-				OnPurchasePressed();
-				break;
-			// Add more cases as needed
 		}
 	}
 
-	private void OnPurchasePressed()
+	private void _onPurchasePressed()
 	{
 		if (GameManager.Instance.Currency > 0)
 		{
 			GameManager.Instance.Currency--;
-			
 		}
 	}
 

@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://fpbimvooomsi"]
+
+[ext_resource type="Theme" uid="uid://b8luim2aesdbe" path="res://themes/action_button_theme.tres" id="1_3i7e4"]
+[ext_resource type="Script" uid="uid://62h3brv1kuhw" path="res://scripts/audio_button.gd" id="1_818dc"]
+[ext_resource type="Script" uid="uid://di8a0jith3j4a" path="res://scripts/FirePanel.cs" id="1_m7a41"]
+[ext_resource type="ButtonGroup" uid="uid://w3cqcuj68a5q" path="res://resources/action_button_group.tres" id="3_3gd0o"]
+[ext_resource type="AudioStream" uid="uid://citx0112h04q6" path="res://assets/sfx/bong_001.ogg" id="3_bhwxv"]
+[ext_resource type="AudioStream" uid="uid://d0ilt31dnat0u" path="res://assets/sfx/switch_006.ogg" id="4_m7a41"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3gd0o"]
+
+[node name="FirePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m7a41")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 232)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/selected = SubResource("StyleBoxEmpty_3gd0o")
+allow_reselect = true
+auto_height = true
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(112, 45)
+layout_mode = 2
+
+[node name="FireButton" type="Button" parent="VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_3i7e4")
+toggle_mode = true
+button_group = ExtResource("3_3gd0o")
+text = "FIRE"
+script = ExtResource("1_818dc")
+hoverAudio = ExtResource("3_bhwxv")
+clickAudio = ExtResource("4_m7a41")
+metadata/_custom_type_script = "uid://62h3brv1kuhw"

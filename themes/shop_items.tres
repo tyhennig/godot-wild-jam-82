@@ -1,0 +1,42 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dyuj7rbn6ifb4"]
+
+[ext_resource type="FontFile" uid="uid://cwdyq0uehbi1" path="res://assets/Silkscreen-Regular.ttf" id="1_y365i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y365i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_unv5s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2lge7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d5t0t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bx3if"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q0u3c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ab172"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iao6m"]
+
+[resource]
+default_font = ExtResource("1_y365i")
+default_font_size = 12
+ItemList/colors/font_color = Color(0.65, 0.65, 0.65, 1)
+ItemList/colors/font_hovered_color = Color(0.95, 0.95, 0.95, 1)
+ItemList/colors/font_hovered_selected_color = Color(1, 1, 1, 1)
+ItemList/colors/font_outline_color = Color(0, 0, 0, 1)
+ItemList/colors/font_selected_color = Color(1, 1, 1, 1)
+ItemList/colors/guide_color = Color(0.7, 0.7, 0.7, 0.25)
+ItemList/constants/h_separation = 4
+ItemList/constants/icon_margin = 4
+ItemList/constants/line_separation = 2
+ItemList/constants/outline_size = 0
+ItemList/constants/v_separation = 4
+ItemList/styles/cursor = SubResource("StyleBoxEmpty_y365i")
+ItemList/styles/cursor_unfocused = SubResource("StyleBoxEmpty_unv5s")
+ItemList/styles/focus = SubResource("StyleBoxEmpty_2lge7")
+ItemList/styles/hovered = SubResource("StyleBoxEmpty_d5t0t")
+ItemList/styles/hovered_selected = SubResource("StyleBoxEmpty_bx3if")
+ItemList/styles/hovered_selected_focus = SubResource("StyleBoxEmpty_q0u3c")
+ItemList/styles/selected = SubResource("StyleBoxEmpty_ab172")
+ItemList/styles/selected_focus = SubResource("StyleBoxEmpty_iao6m")

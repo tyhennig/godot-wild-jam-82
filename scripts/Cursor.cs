@@ -13,7 +13,7 @@ public partial class Cursor : Node2D
 	public Vector2I CellSize { get; set; } = new Vector2I(32, 32);
 	[Export]
 	public Vector2I GridOrigin { get; set; } = new Vector2I(61, 37);
-	public CursorShape CursorShape { get; set; }
+	public GridWreck.CursorShape CursorShape { get; set; }
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

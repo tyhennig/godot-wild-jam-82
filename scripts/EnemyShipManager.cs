@@ -40,7 +40,7 @@ public partial class EnemyShipManager : Node
 		GD.Print("Placing Enemy Ships!");
 		var enemyScene = GD.Load<PackedScene>("res://scenes/enemy_ship.tscn");
 
-		for (int i = 0; i < ShipsCount; i++)
+		for (int i = 0; i < (roundNumber * ShipsAddedPerRound) ; i++)
 		{
 			// Place the ships in random locations on the grid
 			List<Vector2I> ShipSpots = RandomLocationPicker();
@@ -155,7 +155,6 @@ public partial class EnemyShipManager : Node
 		if (remainingShips <= 0)
 		{
 			EmitSignal(SignalName.AllShipsDestroyed);
-			ShipsCount += ShipsAddedPerRound; // Increment the number of ships for the next round
 		}
 	}
 }

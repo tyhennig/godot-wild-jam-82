@@ -18,12 +18,16 @@ public partial class GameManager : Node
 	public static GameManager Instance { get; private set; }
 	public int RoundNumber { get; private set; }
 	public int Currency { get; set; }
-	public int StartingScans { get; private set; }
-	public int StartingEnergy { get; private set; }
-	public int CurrentScans { get; private set; } = 5;
-	public int CurrentEnergy { get; private set; } = 5;
+	public int StartingScans { get; set; }
+	public int StartingBullets { get; set; }
+	public int CurrentScans { get; set; } = 5;
+	public int CurrentBullets { get; set; } = 5;
 	public int ShipsDetected { get; set; }
-	public PackedScene ActiveCursorShape { get; set; }
+	public PackedScene ActiveFireShape { get; set; }
+	public PackedScene ActiveScanShape { get; set; }
+
+	private Boolean _isGameOver;
+	
 	
 	public States CurrentState { get; private set; } = States.Nothing;
 	public enum States
@@ -39,10 +43,11 @@ public partial class GameManager : Node
 	{
 		Instance = this;
 
-		//Signal Setup
-		var actionNode = GetNode<Actions>("/root/Main/UI/Actions");
-		actionNode.FirePressed += OnFirePressed;
-		actionNode.ScanPressed += OnScanPressed;
+		var firePanel = GetNode<FirePanel>("/root/Main/UI/FirePanel");
+		var scanPanel = GetNode<ScanPanel>("/root/Main/UI/ScanPanel");
+
+		firePanel.FirePressed += OnFirePressed;
+		scanPanel.ScanPressed += OnScanPressed;
 
 		SignalBus.Instance.GridCellsSelected += OnGridClicked;
 		SignalBus.Instance.ShipScanned += OnShipScanned;
@@ -53,29 +58,23 @@ public partial class GameManager : Node
 		var enemyManagerNode = GetNode<EnemyShipManager>("/root/Main/World/Grid/EnemyShipManager");
 		enemyManagerNode.AllShipsDestroyed += OnRoundEnd;
 
-		GetNode<Button>("/root/Main/UI/ThreeCursor").Pressed += ActivateThree;
-		GetNode<Button>("/root/Main/UI/OneCursor").Pressed += ActivateOne;
-		GetNode<Button>("/root/Main/UI/ThreeThreeCursor").Pressed += ActivateThreeThreef;
+		var shopScene = GetNode<Shop>("/root/Main/UI/Shop");
+		shopScene.ShopClosed += _initializeNewRound;
 
+	
+		SignalBus.Instance.FireShapeSelected += OnFireShapeSelected;
+		SignalBus.Instance.ScanShapeSelected += OnScanShapeSelected;
 	}
 
-
-
-    private void ActivateThreeThreef()
+    private void OnScanShapeSelected(PackedScene shape)
     {
-		ActiveCursorShape = GD.Load<PackedScene>("res://scenes/cursor_shapes/cursor_shape_3x3.tscn");
+		ActiveScanShape = shape;
     }
 
 
-    private void ActivateOne()
+    private void OnFireShapeSelected(PackedScene shape)
     {
-		ActiveCursorShape = GD.Load<PackedScene>("res://scenes/cursor_shapes/cursor_shape_1x1.tscn");
-    }
-	
-    
-    private void ActivateThree()
-    {
-		ActiveCursorShape = GD.Load<PackedScene>("res://scenes/cursor_shapes/cursor_shape_3x1.tscn");
+		ActiveFireShape = shape;
     }
 
 
@@ -97,12 +96,14 @@ public partial class GameManager : Node
 
 	private void _initializeNewGameData()
 	{
+		GD.Print("Starting new game!");
 		RoundNumber = 0;
 		Currency = 0;
-		StartingScans = 3;
-		StartingEnergy = 5;
+		StartingScans = 5;
+		StartingBullets = 6;
 		CurrentScans = StartingScans;
-		CurrentEnergy = StartingEnergy;
+		CurrentBullets = StartingBullets;
+		_isGameOver = false;
 		_initializeNewRound();
 	}
 	private void _initializeNewRound()
@@ -110,10 +111,8 @@ public partial class GameManager : Node
 		GD.Print("Initializing New Round!");
 		ShipsDetected = 0;
 		RoundNumber++;
-		StartingEnergy++;
-		StartingScans++;
 		CurrentScans = StartingScans;
-		CurrentEnergy = StartingEnergy;
+		CurrentBullets = StartingBullets;
 		CurrentState = States.Nothing;
 		EmitSignal(SignalName.NewRound, RoundNumber);
 	}
@@ -125,17 +124,17 @@ public partial class GameManager : Node
 
 	private void OnGridClicked(Array<Vector2I> cells)
 	{
-		GD.Print("Bullets: ", CurrentEnergy);
+		GD.Print("Bullets: ", CurrentBullets);
 		GD.Print("Scans: ", CurrentScans);
 		switch (CurrentState)
 		{
 			case States.Firing:
 				GD.Print("Firing on ", cells);
-				if (CurrentEnergy > 0)
+				if (CurrentBullets > 0)
 				{
-					CurrentEnergy--;
+					CurrentBullets--;
 				}
-				if (CurrentEnergy == 0)
+				if (CurrentBullets == 0)
 				{
 					CallDeferred("CheckGameOver");
 				}
@@ -159,19 +158,25 @@ public partial class GameManager : Node
 
 	private async void OnRoundEnd()
 	{
+		if (_isGameOver)
+			return;
+		CurrentState = States.Nothing;
 		// WHEN ROUND IS SUCCESSFUL
 		GD.Print("OnRoundEnd!");
 		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-		
-		var shopScene = GD.Load<PackedScene>("res://scenes/shop.tscn");
-		Shop shop = shopScene.Instantiate() as Shop;
-		shop.test = "Shop";
-		// Increase the total points at the end of the round
-		Currency += 1;
-		
-		shop.TreeExited += _initializeNewRound;
 
-		AddChild(shop);
+		// var shopScene = GD.Load<PackedScene>("res://scenes/shop.tscn");
+		// Shop shop = shopScene.Instantiate() as Shop;
+		// shop.test = "Shop";
+		// Increase the total points at the end of the round
+		Currency += RoundNumber * 2;
+
+		// shop.TreeExited += _initializeNewRound;
+
+		var shopScene = GetNode<Shop>("/root/Main/UI/Shop");
+		shopScene.Show();
+
+		// AddChild(shop);
 	}
 
 	private void OnFirePressed()
@@ -193,6 +198,7 @@ public partial class GameManager : Node
 		GD.Print("Checking Game over, ships left: ", GetTree().GetNodeCountInGroup("enemy_ships"));
 		if (GetTree().GetNodeCountInGroup("enemy_ships") > 0)
 		{
+			_isGameOver = true;
 			CurrentState = States.Nothing;
 
 			// Load and Display the Game over screen, wait 1s and then go to the menu via GameOver Signal

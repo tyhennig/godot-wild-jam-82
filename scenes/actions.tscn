@@ -1,6 +1,5 @@
 [gd_scene load_steps=8 format=3 uid="uid://dhpbm76kumygh"]
 
-[ext_resource type="Script" uid="uid://rav3rgswr17m" path="res://scripts/Actions.cs" id="1_he050"]
 [ext_resource type="Script" uid="uid://62h3brv1kuhw" path="res://scripts/audio_button.gd" id="2_doyms"]
 [ext_resource type="Theme" uid="uid://b8luim2aesdbe" path="res://themes/action_button_theme.tres" id="2_jiyq0"]
 [ext_resource type="ButtonGroup" uid="uid://w3cqcuj68a5q" path="res://resources/action_button_group.tres" id="2_una8d"]
@@ -8,12 +7,55 @@
 [ext_resource type="AudioStream" uid="uid://d0ilt31dnat0u" path="res://assets/sfx/switch_006.ogg" id="4_dk76a"]
 [ext_resource type="AudioStream" uid="uid://2mgtejdqlkrt" path="res://assets/sfx/switch_007.ogg" id="5_dk76a"]
 
+[sub_resource type="CSharpScript" id="CSharpScript_una8d"]
+script/source = "using Godot;
+using System;
+
+public partial class Actions : Control
+{
+	[Signal]
+	public delegate void FirePressedEventHandler();
+
+	[Signal]
+	public delegate void ScanPressedEventHandler();
+
+	[Export]
+	private Button _fireButton;
+
+	[Export]
+	private Button _scanButton;
+
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		_fireButton.Pressed += FireButtonPressed;
+		_scanButton.Pressed += ScanButtonPressed;
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+
+	}
+
+	private void FireButtonPressed()
+	{
+		EmitSignal(SignalName.FirePressed);
+	}
+
+	private void ScanButtonPressed()
+	{
+		EmitSignal(SignalName.ScanPressed);
+	}
+}
+"
+
 [node name="Actions" type="Control" node_paths=PackedStringArray("_fireButton", "_scanButton")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 640.0
 offset_bottom = 360.0
-script = ExtResource("1_he050")
+script = SubResource("CSharpScript_una8d")
 _fireButton = NodePath("HBox/FireButton")
 _scanButton = NodePath("HBox/ScanButton")
 metadata/_edit_use_anchors_ = true

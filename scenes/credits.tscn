@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://qtaqwwh06q48"]
 
 [ext_resource type="Theme" uid="uid://30mgaogf1xh8" path="res://themes/custom_theme.tres" id="1_0bpdh"]
-[ext_resource type="Script" uid="uid://bi77eih2386hx" path="res://scripts/Credits.cs" id="1_2ckv8"]
+[ext_resource type="Script" uid="uid://bi77eih2386hx" path="res://scripts/main_menu/Credits.cs" id="1_2ckv8"]
 
 [sub_resource type="Theme" id="Theme_yeqti"]
 default_font_size = 20

@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using GridWreck;
 using System;
 using System.Collections.Generic;
 
@@ -18,6 +19,16 @@ public partial class CursorShape3x1 : CursorShape
     public override Array<Vector2I> GetCursorCells(Vector2I vec2)
     {
 		return [new Vector2I(vec2.X - 1, vec2.Y), vec2, new Vector2I(vec2.X + 1, vec2.Y)];
+    }
+
+    public override string GetSceneLocation()
+    {
+		return "res://scenes/cursor_shapes/quad_3x1.tscn";
+    }
+
+    public override string GetDescription()
+    {
+		return "QUAD 3x1";
     }
 
 }

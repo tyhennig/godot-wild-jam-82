@@ -3,7 +3,8 @@ using System;
 
 public partial class Shop : CanvasLayer
 {
-	public String test { get; set; }
+	[Signal]
+	public delegate void ShopClosedEventHandler();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -12,15 +13,12 @@ public partial class Shop : CanvasLayer
 		button.Pressed += ExitShop;
 
 		var shopLabel = GetNode<Label>("ShopLabel");
-		shopLabel.Text = test != null ? test : "It failed";
-		
-		var currencyLabel = GetNode<Label>("CurrencyLabel");
-		currencyLabel.Text = "$ " + GameManager.Instance.Currency;
 	}
 
-    private void ExitShop()
-    {
-		this.QueueFree();
+	private void ExitShop()
+	{
+		this.Hide();
+		EmitSignal(SignalName.ShopClosed);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

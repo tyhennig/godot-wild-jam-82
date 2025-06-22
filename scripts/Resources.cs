@@ -17,7 +17,7 @@ public partial class Resources : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		UpdateAmmo(GameManager.Instance.CurrentEnergy);
+		UpdateAmmo(GameManager.Instance.CurrentBullets);
 		UpdateScans(GameManager.Instance.CurrentScans);
 	}
 
