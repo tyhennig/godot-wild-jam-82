@@ -11,8 +11,8 @@ public partial class CursorShape3x3 : CursorShape
 	{
 	}
 
-    public override Array<Vector2I> GetCursorCells(Vector2I vec2)
-    {
+	public override Array<Vector2I> GetCursorCells(Vector2I vec2)
+	{
 		return [
 				vec2 + Left,
 				vec2 + Right,
@@ -24,6 +24,8 @@ public partial class CursorShape3x3 : CursorShape
 				vec2 + Right + Down,
 				vec2
 		];
+
+	
     }
 
     public override string GetSceneLocation()

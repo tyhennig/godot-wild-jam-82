@@ -99,8 +99,8 @@ public partial class GameManager : Node
 		GD.Print("Starting new game!");
 		RoundNumber = 0;
 		Currency = 0;
-		StartingScans = 5;
-		StartingBullets = 6;
+		StartingScans = 15;
+		StartingBullets = 10;
 		CurrentScans = StartingScans;
 		CurrentBullets = StartingBullets;
 		_isGameOver = false;
@@ -169,7 +169,7 @@ public partial class GameManager : Node
 		// Shop shop = shopScene.Instantiate() as Shop;
 		// shop.test = "Shop";
 		// Increase the total points at the end of the round
-		Currency += RoundNumber * 2;
+		Currency += RoundNumber * 2 + 2;
 
 		// shop.TreeExited += _initializeNewRound;
 

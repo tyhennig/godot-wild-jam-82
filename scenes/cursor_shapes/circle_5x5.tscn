@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch6nvd6khd8kr"]
+
+[ext_resource type="Script" uid="uid://d4cod64hiqfny" path="res://scripts/cursor_shapes/Circle_5x5.cs" id="1_0wih8"]
+[ext_resource type="Texture2D" uid="uid://cft2wgxcxgllk" path="res://assets/cursor_shapes/circle_5x5.png" id="2_5ccrq"]
+
+[node name="Circle5x5" type="Node2D"]
+script = ExtResource("1_0wih8")
+
+[node name="Circle5x5" type="Sprite2D" parent="."]
+texture = ExtResource("2_5ccrq")

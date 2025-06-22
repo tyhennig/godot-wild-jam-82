@@ -19,31 +19,11 @@ public partial class ScanList : ItemList
 		switch (index)
 		{
 			case 0:
-				// quad 5x5
-				if (_onPurchasePressed(2, index))
-				{
-					// SignalBus.Instance.EmitSignal(SignalBus.SignalName.ScanCursorPurchased, );
-				}
-				break;
-			case 1:
 				// circle 5x5
-				if (_onPurchasePressed(3, index))
-				{
-					// SignalBus.Instance.EmitSignal(SignalBus.SignalName.ScanCursorPurchased, );
-				}
-				break;
-			case 2:
-				// row x3
 				if (_onPurchasePressed(5, index))
 				{
-					// SignalBus.Instance.EmitSignal(SignalBus.SignalName.ScanCursorPurchased, );
-				}
-				break;
-			case 3:
-				// column x3
-				if (_onPurchasePressed(5, index))
-				{
-					// SignalBus.Instance.EmitSignal(SignalBus.SignalName.ScanCursorPurchased, );
+					SignalBus.Instance.EmitSignal(SignalBus.SignalName.ScanCursorPurchased, new Circle_5x5());
+					SetItemDisabled((int)index, true);
 				}
 				break;
 		}

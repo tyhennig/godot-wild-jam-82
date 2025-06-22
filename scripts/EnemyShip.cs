@@ -23,16 +23,16 @@ public partial class EnemyShip : Node2D
 		GameManager.Instance.ScannedGrid += OnScanned;
 
 		// For DEBUGGING ONLY:
-		Grid gridNode = GetNode<Grid>("/root/Main/World/Grid");
-		Texture2D overlayTexture = GD.Load<Texture2D>("res://assets/ship_overlay.png");
-		foreach (var cell in GridLocations)
-		{
-			Sprite2D sprite = new();
+		// Grid gridNode = GetNode<Grid>("/root/Main/World/Grid");
+		// Texture2D overlayTexture = GD.Load<Texture2D>("res://assets/ship_overlay.png");
+		// foreach (var cell in GridLocations)
+		// {
+		// 	Sprite2D sprite = new();
 
-			sprite.GlobalPosition = gridNode.ToGlobal(gridNode.GridVecToLocalVec(cell));
-			sprite.Texture = overlayTexture;
-			AddChild(sprite);
-		}
+		// 	sprite.GlobalPosition = gridNode.ToGlobal(gridNode.GridVecToLocalVec(cell));
+		// 	sprite.Texture = overlayTexture;
+		// 	AddChild(sprite);
+		// }
 	}
 
 	public override void _ExitTree()
