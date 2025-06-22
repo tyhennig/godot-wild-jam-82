@@ -117,10 +117,10 @@ text = "1x1 Cursor"
 
 [node name="ScanResult" type="Label" parent="UI"]
 layout_mode = 0
-offset_left = 35.0
-offset_top = 180.0
-offset_right = 130.0
-offset_bottom = 264.0
+offset_left = 496.0
+offset_top = 168.0
+offset_right = 591.0
+offset_bottom = 252.0
 text = "Ships Detected:"
 autowrap_mode = 3
 script = ExtResource("7_choun")
