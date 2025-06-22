@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dup4geigacidd"]
+[gd_scene load_steps=7 format=3 uid="uid://dup4geigacidd"]
 
 [ext_resource type="Script" uid="uid://c0o45q3kqbdjx" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
 [ext_resource type="Theme" uid="uid://30mgaogf1xh8" path="res://themes/custom_theme.tres" id="2_ekxnf"]
 [ext_resource type="Theme" uid="uid://dphc28t8dl3xm" path="res://themes/vboxcontainer_theme.tres" id="3_bqqt6"]
+[ext_resource type="Script" uid="uid://62h3brv1kuhw" path="res://scripts/audio_button.gd" id="4_wu84c"]
+[ext_resource type="AudioStream" uid="uid://citx0112h04q6" path="res://assets/sfx/bong_001.ogg" id="5_rtw2f"]
+[ext_resource type="AudioStream" uid="uid://btycnmjcfxkda" path="res://assets/sfx/click_001.ogg" id="6_oa1go"]
 
 [node name="MainMenu" type="CenterContainer"]
 anchors_preset = 15
@@ -32,11 +35,19 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Start Game"
+script = ExtResource("4_wu84c")
+hoverAudio = ExtResource("5_rtw2f")
+clickAudio = ExtResource("6_oa1go")
+metadata/_custom_type_script = "uid://62h3brv1kuhw"
 
 [node name="SettingsButton" type="Button" parent="PanelContainer/ButtonLayout"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Settings"
+script = ExtResource("4_wu84c")
+hoverAudio = ExtResource("5_rtw2f")
+clickAudio = ExtResource("6_oa1go")
+metadata/_custom_type_script = "uid://62h3brv1kuhw"
 
 [node name="SettingsDialog" type="ConfirmationDialog" parent="PanelContainer/ButtonLayout/SettingsButton"]
 unique_name_in_owner = true
@@ -59,12 +70,20 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Credits"
+script = ExtResource("4_wu84c")
+hoverAudio = ExtResource("5_rtw2f")
+clickAudio = ExtResource("6_oa1go")
+metadata/_custom_type_script = "uid://62h3brv1kuhw"
 
 [node name="QuitButton" type="Button" parent="PanelContainer/ButtonLayout"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 text = "Quit"
+script = ExtResource("4_wu84c")
+hoverAudio = ExtResource("5_rtw2f")
+clickAudio = ExtResource("6_oa1go")
+metadata/_custom_type_script = "uid://62h3brv1kuhw"
 
 [node name="QuitConfirmationDialog" type="ConfirmationDialog" parent="PanelContainer/ButtonLayout/QuitButton"]
 unique_name_in_owner = true
