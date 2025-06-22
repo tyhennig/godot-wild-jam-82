@@ -11,8 +11,11 @@ public partial class Shop : CanvasLayer
 		var button = GetNode<Button>("NextRoundButton");
 		button.Pressed += ExitShop;
 
-		var label = GetNode<Label>("TestLabel");
-		label.Text = test != null ? test : "It failed";
+		var shopLabel = GetNode<Label>("ShopLabel");
+		shopLabel.Text = test != null ? test : "It failed";
+		
+		var currencyLabel = GetNode<Label>("CurrencyLabel");
+		currencyLabel.Text = "$ " + GameManager.Instance.Currency;
 	}
 
     private void ExitShop()
